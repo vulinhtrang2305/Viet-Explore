@@ -3,14 +3,24 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const connectDb = require('./config/db');
 require('dotenv').config();
-const productRouter = require("./src/routers/product.api")
 const app = express();
-// middleware cho phép domain khác có thể gửi yêu cầu và nhận res
-app.use(cors());
 
-app.use(bodyParser.json()); // express.json()
-app.use(bodyParser.urlencoded({ extended: true })); // express.urlencoded
-app.use("/api", productRouter)
+//api
+const spotRouter = require("./src/routers/spotsApi/spot.api")
+const CategoryRouter = require("./src/routers/CategoryApi/category.api")
+const FavouriteRouter = require("./src/routers/favouriteApi/favourite.api")
+const ProvinceRouter = require("./src/routers/ProvinceApi/province.api")
+const ReviewRouter = require("./src/routers/ReviewApi/review.api")
+const SuggestRouter = require("./src/routers/SuggestApi/suggest.api")
+const UserRouter = require("./src/routers/userApi/user.api")
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// router
+app.use("/", spotRouter, CategoryRouter, FavouriteRouter, ProvinceRouter, ReviewRouter, SuggestRouter, UserRouter)
+
 connectDb();
 const PORT = process.env.PORT || 9999;
 app.listen(PORT, () => {
