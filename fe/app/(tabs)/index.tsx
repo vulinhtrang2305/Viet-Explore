@@ -1,9 +1,23 @@
-import AppNavigation from '@/src/navigation/AppNavigation';
-import App from "../App"
+import React from 'react';
+import App from './../App';
+import AppProvider from "../../src/provider/AppProvider";
+
 const index = () => {
   return (
-    <App />
+    <React.StrictMode>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </React.StrictMode>
   );
 };
 
 export default index;
+
+
+// import React from 'react';
+// import CustomTabNavigator from '@/src/navigation/CustomTabNavigator';
+
+// export default function TabRoot() {
+//   return <CustomTabNavigator />;
+// }
