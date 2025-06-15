@@ -1,14 +1,13 @@
 import React from 'react';
-import { View, Text, Button, ScrollView } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../navigation/AppNavigation';
+import { View, ScrollView } from 'react-native';
+// import { RootStackParamList } from '../../../navigation/AppNavigation';
 import HeaderC from './HeaderC';
 import BannerC from './BannerC';
 import LocationScroll from './LoactionScroll';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+// type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
-export default function HomeScreen({ navigation }: Props) {
+export default function MainHomeC() {
     return (
         <ScrollView>
             <View style={{ flex: 1, }}>
@@ -19,7 +18,7 @@ export default function HomeScreen({ navigation }: Props) {
                     width={600}
                     height={120}
                 />
-               <LocationScroll/>
+                <LocationScroll />
             </View>
         </ScrollView>
     );

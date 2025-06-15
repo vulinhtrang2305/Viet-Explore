@@ -7,14 +7,14 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import AppContext from '../../../../../provider/Context';
+import AppContext from '../../../provider/Context';
 
 export default function AllDestination() {
     const { spot } = useContext(AppContext);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Điểm đến phổ biến</Text>
+            {/* <Text style={styles.title}>Điểm đến phổ biến</Text> */}
 
             <FlatList
                 data={spot}

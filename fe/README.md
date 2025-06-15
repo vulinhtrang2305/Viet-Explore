@@ -1,50 +1,26 @@
-# Welcome to your Expo app 👋
+# React Native
+Template này được sử dụng cho video hướng dẫn React Native (basic) của tác giả Hỏi Dân IT (Eric)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+### Môi trường chạy dự án: Node.js v20.14.0
+https://nodejs.org/download/release/v20.14.0/
 
-## Get started
+## Về tác giả
+Mọi thông tin về Tác giả Hỏi Dân IT, các bạn có thể tìm kiếm tại đây:
 
-1. Install dependencies
+Website chính thức: https://hoidanit.vn/
 
-   ```bash
-   npm install
-   ```
+Youtube “Hỏi Dân IT” : https://www.youtube.com/@hoidanit
 
-2. Start the app
+Tiktok “Hỏi Dân IT” :  https://www.tiktok.com/@hoidanit
 
-   ```bash
-   npx expo start
-   ```
+Fanpage “Hỏi Dân IT” : https://www.facebook.com/askITwithERIC/
 
-In the output, you'll find options to open the app in a
+Udemy Hỏi Dân IT: https://www.udemy.com/user/eric-7039/
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+===
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Các bước cài đặt: (chế độ development)
+1. clone code
+2. cài đặt thư viện: npm i
+3. Update file .env (nếu cần thiết)
+4. Chạy dự án:  npm start | hoặc | npm run dev 

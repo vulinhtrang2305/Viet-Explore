@@ -9,7 +9,7 @@ import {
     Image,
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import AppContext from '@/src/provider/Context';
+import AppContext from '../../../provider/Context';
 
 const iconMap: Record<string, { icon: string; color: string }> = {
     "Thiên nhiên": { icon: "leaf-outline", color: "#5EC58F" },
@@ -25,7 +25,6 @@ export default function HeaderC() {
 
     return (
         <ScrollView style={styles.container}>
-            {/* Header */}
             <View style={styles.headerTop}>
                 <Text style={styles.title}>Danh lam thắng cảnh Việt Nam</Text>
                 <TouchableOpacity>
@@ -37,7 +36,6 @@ export default function HeaderC() {
                 Tìm kiếm danh lam thắng cảnh cùng chúng tôi
             </Text>
 
-            {/* Search box */}
             <View style={styles.searchBox}>
                 <TextInput
                     style={styles.input}
@@ -46,7 +44,6 @@ export default function HeaderC() {
                 />
             </View>
 
-            {/* Menu grid */}
             <View style={styles.menuGrid}>
                 {Array.isArray(category) &&
                     category.map((item, index) => {
@@ -57,9 +54,11 @@ export default function HeaderC() {
 
                         return (
                             <View key={index} style={styles.menuItem}>
-                                <View style={[styles.iconCircle, { backgroundColor: info.color }]}>
-                                    <Ionicons name={info.icon as any} size={20} color="#fff" />
-                                </View>
+                                <TouchableOpacity>
+                                    <View style={[styles.iconCircle, { backgroundColor: info.color }]}>
+                                        <Ionicons name={info.icon as any} size={20} color="#fff" />
+                                    </View>
+                                </TouchableOpacity>
                                 <Text style={styles.menuLabel}>{item.name}</Text>
                             </View>
                         );

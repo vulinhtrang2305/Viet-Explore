@@ -1,5 +1,4 @@
-import AppContext from '@/src/provider/Context';
-import { Link } from 'expo-router';
+import { Link, useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import {
     View,
@@ -9,18 +8,17 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
+import AppContext from '../../../provider/Context';
 
-export default function LocationScroll() {
+const LocationScroll = (props: any) => {
     const { spot } = useContext(AppContext)
+    const navigation = useNavigation()
     return (
         <View style={styles.container}>
-            {/* Header */}
             <View style={styles.headerRow}>
                 <Text style={styles.headerTitle}>Điểm đến phổ biến</Text>
-                <TouchableOpacity>
-                    <Link href="/details">
-                        <Text style={styles.viewAll}>Tất cả</Text>
-                    </Link>
+                <TouchableOpacity onPress={() => navigation.navigate('list-details')}>
+                    <Text style={styles.viewAll}>Tất cả</Text>
                 </TouchableOpacity>
             </View>
 
@@ -40,6 +38,9 @@ export default function LocationScroll() {
         </View>
     );
 }
+
+
+export default LocationScroll;
 
 const styles = StyleSheet.create({
     container: {
