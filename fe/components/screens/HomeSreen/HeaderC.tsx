@@ -6,10 +6,10 @@ import {
     StyleSheet,
     TouchableOpacity,
     ScrollView,
-    Image,
 } from 'react-native';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import AppContext from '../../../provider/Context';
+import { useNavigation } from '@react-navigation/native';
 
 const iconMap: Record<string, { icon: string; color: string }> = {
     "Thiên nhiên": { icon: "leaf-outline", color: "#5EC58F" },
@@ -21,15 +21,14 @@ const iconMap: Record<string, { icon: string; color: string }> = {
 };
 
 export default function HeaderC() {
-    const { category } = useContext(AppContext)
+    const { category } = useContext(AppContext);
+    const navigation = useNavigation();
 
     return (
         <ScrollView style={styles.container}>
             <View style={styles.headerTop}>
                 <Text style={styles.title}>Danh lam thắng cảnh Việt Nam</Text>
-                <TouchableOpacity>
-                    <Ionicons name="search" size={24} color="#333" />
-                </TouchableOpacity>
+                <Ionicons name="search" size={24} color="#333" />
             </View>
 
             <Text style={styles.subtitle}>
@@ -49,12 +48,18 @@ export default function HeaderC() {
                     category.map((item, index) => {
                         const info = iconMap[item.name] || {
                             icon: 'help-outline',
-                            color: '#ccc'
+                            color: '#ccc',
                         };
 
                         return (
                             <View key={index} style={styles.menuItem}>
-                                <TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        navigation.navigate('catgory-location', {
+                                            categoryId: item._id,
+                                        })
+                                    }
+                                >
                                     <View style={[styles.iconCircle, { backgroundColor: info.color }]}>
                                         <Ionicons name={info.icon as any} size={20} color="#fff" />
                                     </View>
@@ -65,7 +70,6 @@ export default function HeaderC() {
                     })}
             </View>
 
-            {/* Lên lịch trình button */}
             <TouchableOpacity style={styles.planButton}>
                 <Text style={styles.planButtonText}>Lên lịch trình</Text>
             </TouchableOpacity>

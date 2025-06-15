@@ -23,6 +23,7 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen name="Home" component={MainHomeC} options={{ headerShown: false }} />
           <Stack.Screen name="list-details" component={AllDestination} options={{ title: "Điểm đến phổ biến" }} />
+          <Stack.Screen name="catgory-location" component={DetailsLocation} options={{ title: "Điểm đến phổ biến" }} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>
