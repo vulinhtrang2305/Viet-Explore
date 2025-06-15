@@ -8,9 +8,11 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import AppContext from '../../../provider/Context';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AllDestination() {
     const { spot } = useContext(AppContext);
+    const navigation = useNavigation()
 
     return (
         <View style={styles.container}>
@@ -20,8 +22,10 @@ export default function AllDestination() {
                 data={spot}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.card}>
-                        <Image source={{ uri: item.imageUrl }} style={styles.image} />
+                    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('description', {
+                        spotId: item._id,
+                    })}>
+                        <Image source={{ uri: item.imageUrl[0] }} style={styles.image} />
                         <View style={styles.textContainer}>
                             <Text style={styles.name}>{item.name}</Text>
                             <Text style={styles.description} numberOfLines={2}>

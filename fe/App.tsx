@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, View } from 'react-native';
 import DetailsLocation from './components/screens/DetailsScreen/DetailsLocation';
 import AllDestination from './components/screens/AllDestination/AllDestination';
+import DescriptionC from './components/screens/DescriptionScreen/DescriptionC';
 
 function HomeScreen() {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Stack.Screen name="Home" component={MainHomeC} options={{ headerShown: false }} />
           <Stack.Screen name="list-details" component={AllDestination} options={{ title: "Điểm đến phổ biến" }} />
           <Stack.Screen name="catgory-location" component={DetailsLocation} options={{ title: "Điểm đến phổ biến" }} />
+          <Stack.Screen name="description" component={DescriptionC} options={{ title: "Thông tin chi tiết" }} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>

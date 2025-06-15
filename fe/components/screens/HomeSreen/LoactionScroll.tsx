@@ -30,7 +30,11 @@ const LocationScroll = (props: any) => {
                 contentContainerStyle={{ paddingVertical: 12 }}
                 renderItem={({ item }) => (
                     <View style={styles.item}>
-                        <Image source={{ uri: item.imageUrl }} style={styles.image} />
+                        <TouchableOpacity onPress={() => navigation.navigate('description', {
+                            spotId: item._id,
+                        })}>
+                            <Image source={{ uri: item.imageUrl[0] }} style={styles.image} />
+                        </TouchableOpacity>
                         <Text style={styles.name}>{item.name}</Text>
                     </View>
                 )}

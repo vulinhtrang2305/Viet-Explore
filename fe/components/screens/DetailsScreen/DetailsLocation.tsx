@@ -21,7 +21,7 @@ export default function DetailsLocation() {
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Image source={{ uri: item.imageUrl }} style={styles.image} />
+            <Image source={{ uri: item.imageUrl[0] }} style={styles.image} />
             <Text style={styles.name}>{item.name}</Text>
           </View>
         )}
