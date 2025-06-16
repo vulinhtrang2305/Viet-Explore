@@ -14,12 +14,12 @@ import AppContext from '../../../provider/Context';
 const screenWidth = Dimensions.get('window').width;
 
 export default function ReviewDetailScreen() {
-    const { reviews, users, spot } = useContext(AppContext);
+    const { review, user, spot } = useContext(AppContext);
     const route = useRoute();
     const { spotId } = route.params;
 
-    const selectedSpot = spot.find(s => s._id === spotId);
-    const spotReviews = reviews.filter(r => r.spotId === spotId);
+    const selectedSpot = spot?.find(s => s._id === spotId);
+    const spotReviews = review.filter(r => r.spotId === spotId);
 
     return (
         <View style={styles.container}>
@@ -29,13 +29,13 @@ export default function ReviewDetailScreen() {
                 data={spotReviews}
                 keyExtractor={item => item._id}
                 renderItem={({ item }) => {
-                    const user = users.find(u => u._id === item.userId);
+                    const userFind = user.find(u => u._id === item.userId);
                     return (
                         <View style={styles.card}>
                             <View style={styles.header}>
                                 <Ionicons name="person-circle-outline" size={28} color="#777" />
                                 <View style={{ marginLeft: 10 }}>
-                                    <Text style={styles.username}>{user?.name || 'Người dùng'}</Text>
+                                    <Text style={styles.username}>{userFind?.username || 'Người dùng'}</Text>
                                     <Text style={styles.date}>
                                         {new Date(item.createdAt).toLocaleDateString()}
                                     </Text>
