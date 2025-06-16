@@ -23,7 +23,7 @@ export default function AllDestination() {
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('description', {
-                        spotId: item._id,
+                        spotId: item?._id,
                     })}>
                         <Image source={{ uri: item.imageUrl[0] }} style={styles.image} />
                         <View style={styles.textContainer}>

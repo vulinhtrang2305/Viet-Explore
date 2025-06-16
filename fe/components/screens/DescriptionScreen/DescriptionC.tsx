@@ -12,6 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 import AppContext from '../../../provider/Context';
+import ReviewDetailScreen from '../ReviewDetails/ReviewDetailScreen';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -29,14 +30,12 @@ export default function SpotDetailScreen() {
         <ScrollView style={styles.container}>
             <Text style={styles.title}>{selectedSpot.name}</Text>
 
-            {/* Ảnh lớn */}
             <Image
                 source={{ uri: selectedSpot.imageUrl[selectedIndex] }}
                 style={styles.mainImage}
                 resizeMode="cover"
             />
 
-            {/* Ảnh nhỏ */}
             <FlatList
                 data={selectedSpot.imageUrl}
                 horizontal
@@ -56,7 +55,6 @@ export default function SpotDetailScreen() {
                 )}
             />
 
-            {/* Thông tin */}
             <View style={styles.infoRow}>
                 <Ionicons name="location-outline" size={18} color="#777" />
                 <Text style={styles.infoText}>Khu vực: Miền {selectedSpot.region}</Text>
@@ -69,6 +67,7 @@ export default function SpotDetailScreen() {
 
             <Text style={styles.sectionTitle}>Giới thiệu: </Text>
             <Text style={styles.description}>{selectedSpot.description}</Text>
+
         </ScrollView>
     );
 }
@@ -85,11 +84,11 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     mainImage: {
-        width: screenWidth * 0.9,
-        height: 250,
+        width: screenWidth * 0.92,
+        height: screenWidth * 0.52,
         borderRadius: 16,
+        marginTop: 14,
         alignSelf: 'center',
-        marginTop: 12,
     },
     thumbnailContainer: {
         marginTop: 14,
