@@ -30,14 +30,12 @@ export default function SpotDetailScreen() {
         <ScrollView style={styles.container}>
             <Text style={styles.title}>{selectedSpot.name}</Text>
 
-            {/* Ảnh chính */}
             <Image
                 source={{ uri: selectedSpot.imageUrl[selectedIndex] }}
                 style={styles.mainImage}
                 resizeMode="cover"
             />
 
-            {/* Thumbnails */}
             <FlatList
                 data={selectedSpot.imageUrl}
                 horizontal
@@ -57,7 +55,6 @@ export default function SpotDetailScreen() {
                 )}
             />
 
-            {/* Info rows */}
             <View style={styles.infoRow}>
                 <Ionicons name="location-outline" size={18} color="#777" />
                 <Text style={styles.infoText}>Khu vực: Miền {selectedSpot.region}</Text>
@@ -68,11 +65,9 @@ export default function SpotDetailScreen() {
                 <Text style={styles.infoText}>Loại hình: {selectedSpot.type}</Text>
             </View>
 
-            {/* Mô tả */}
             <Text style={styles.sectionTitle}>Giới thiệu</Text>
             <Text style={styles.description}>{selectedSpot.description}</Text>
 
-            {/* Review section */}
             <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Đánh giá từ người dùng</Text>
                 <ReviewDetailScreen spotId={spotId} />
