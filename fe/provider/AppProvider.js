@@ -7,6 +7,7 @@ function AppProvider({ children }) {
   const [category, setCategory] = useState([]); 
   const [review, setReview] = useState([]); 
   const [user, setUser] = useState([]); 
+  const [suggest, setSuggest] = useState([]); 
   // const [categorySearch, setCategorySearch] = useState([]); 
   // const [searchName, setSearchName] = useState(""); 
   // const [genderFilter, setGenderFilter] = useState({}); 
@@ -29,6 +30,8 @@ function AppProvider({ children }) {
       const resUser = await axios.get("http://localhost:9999/users");
       setUser(resUser?.data?.data);
       
+      const resSuggest = await axios.get("http://localhost:9999/suggests");
+      setSuggest(resSuggest?.data?.data);
 
     } catch (error) {
       console.log(error);
@@ -79,7 +82,8 @@ function AppProvider({ children }) {
     category, setCategory,
     spot, setSpot,
     review, setReview,
-    user, setUser
+    user, setUser,
+    suggest, setSuggest
   };
 
   return (

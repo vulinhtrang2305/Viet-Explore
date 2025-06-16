@@ -6,6 +6,7 @@ import { Text, View } from 'react-native';
 import DetailsLocation from './components/screens/DetailsScreen/DetailsLocation';
 import AllDestination from './components/screens/AllDestination/AllDestination';
 import DescriptionC from './components/screens/DescriptionScreen/DescriptionC';
+import SuggestC from './components/screens/SuggestLocation/SuggestC';
 
 function HomeScreen() {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Stack.Screen name="list-details" component={AllDestination} options={{ title: "Điểm đến phổ biến" }} />
           <Stack.Screen name="catgory-location" component={DetailsLocation} options={{ title: "Điểm đến phổ biến" }} />
           <Stack.Screen name="description" component={DescriptionC} options={{ title: "Thông tin chi tiết" }} />
+          <Stack.Screen name="suggest" component={SuggestC} options={{ title: "Gợi ý chuyến đi nổi bật" }} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>

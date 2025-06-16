@@ -5,6 +5,7 @@ const Spot = require("../Spots/spots.model")
 const suggestsSchema = new mongoose.Schema({
     title: String,
     description: String,
+    imageUrl: [String],
     spotId: [
         {
             type: mongoose.Schema.Types.ObjectId,

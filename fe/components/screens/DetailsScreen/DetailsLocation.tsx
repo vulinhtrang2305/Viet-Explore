@@ -13,7 +13,7 @@ export default function DetailsLocation() {
   const categoryName = category?.find((cat) => cat._id === categoryId)?.name || 'Danh mục';
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <View style={{ flex: 1, padding: 20 }}>
       <Text style={styles.title}>Danh mục: {categoryName}</Text>
 
       <FlatList
