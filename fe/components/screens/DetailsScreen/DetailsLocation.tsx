@@ -1,12 +1,12 @@
-import { useRoute } from '@react-navigation/native';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useContext } from 'react';
 import AppContext from '../../../provider/Context';
 
 export default function DetailsLocation() {
   const route = useRoute();
   const { categoryId } = route.params;
-
+  const navigation = useNavigation()
   const { spot, category } = useContext(AppContext);
 
   const filteredSpots = spot?.filter((item) => item.categoryId === categoryId);
@@ -20,10 +20,12 @@ export default function DetailsLocation() {
         data={filteredSpots}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Image source={{ uri: item.imageUrl[0] }} style={styles.image} />
-            <Text style={styles.name}>{item.name}</Text>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("description", { spotId: item._id })}>
+            <View style={styles.item}>
+              <Image source={{ uri: item.imageUrl[0] }} style={styles.image} />
+              <Text style={styles.name}>{item.name}</Text>
+            </View>
+          </TouchableOpacity>
         )}
         ListEmptyComponent={
           <Text style={{ marginTop: 20, textAlign: 'center' }}>
@@ -56,5 +58,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     color: '#333',
+    fontWeight: 'bold',
   },
 });

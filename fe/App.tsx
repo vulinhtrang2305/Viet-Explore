@@ -25,7 +25,7 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen name="Home" component={MainHomeC} options={{ headerShown: false }} />
           <Stack.Screen name="list-details" component={AllDestination} options={{ title: "Điểm đến phổ biến" }} />
-          <Stack.Screen name="catgory-location" component={DetailsLocation} options={{ title: "Điểm đến phổ biến" }} />
+          <Stack.Screen name="catgory-location" component={DetailsLocation} options={{ title: "Điểm đến nổi bật" }} />
           <Stack.Screen name="description" component={DescriptionC} options={{ title: "Thông tin chi tiết" }} />
           <Stack.Screen name="suggest" component={SuggestC} options={{ title: "Gợi ý chuyến đi nổi bật" }} />
         </Stack.Navigator>
