@@ -10,8 +10,8 @@ import SuggestC from '../SuggestLocation/SuggestC';
 
 export default function MainHomeC() {
     return (
-        <ScrollView>
-            <View style={{ flex: 1, }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+            <View style={{ flex: 1 }}>
                 <HeaderC />
                 <BannerC
                     uri="https://ik.imagekit.io/tvlk/blog/2023/09/lang-tu-duc-11.jpg"
@@ -20,7 +20,7 @@ export default function MainHomeC() {
                     height={120}
                 />
                 <LocationScroll />
-                <SuggestC/>
+                <SuggestC />
             </View>
         </ScrollView>
     );
