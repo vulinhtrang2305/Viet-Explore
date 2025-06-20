@@ -8,7 +8,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
-import AppProvider from "./provider/AppProvider";
 import MainHomeC from "./components/screens/HomeSreen/MainHomeC";
 import DetailsLocation from "./components/screens/DetailsScreen/DetailsLocation";
 import AllDestination from "./components/screens/AllDestination/AllDestination";
