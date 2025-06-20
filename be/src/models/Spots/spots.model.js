@@ -16,7 +16,7 @@ const spotSchema = new mongoose.Schema({
         enum: ["Bắc", "Trung", "Nam"]
     },
     type: String,
-    imageUrl: String,
+    imageUrl: [String],
     description: String,
     location: {
         lat: {
