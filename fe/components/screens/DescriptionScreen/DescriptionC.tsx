@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -11,16 +11,23 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-import AppContext from '../../../provider/Context';
 import ReviewDetailScreen from '../ReviewDetails/ReviewDetailScreen';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { fetchSpots } from '../../../store/slices/spotSlice';
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function SpotDetailScreen() {
     const route = useRoute();
     const { spotId } = route.params;
-    const { spot } = useContext(AppContext);
-    const selectedSpot = spot.find((s) => s._id === spotId);
+    const dispatch = useDispatch();
+    const { spots, loading, error } = useAppSelector((state) => state.spots);
+
+    useEffect(() => {
+        dispatch(fetchSpots());
+    }, [dispatch]);
+    const selectedSpot = spots.find((s) => s._id === spotId);
 
     const [selectedIndex, setSelectedIndex] = useState(0);
 
