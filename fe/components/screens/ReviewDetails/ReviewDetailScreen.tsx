@@ -18,7 +18,6 @@ import { fetchUsers } from '../../../store/slices/userSlice';
 const screenWidth = Dimensions.get('window').width;
 
 export default function ReviewDetailScreen() {
-    // const { review, user, spot } = useContext(AppContext);
     const dispatch = useDispatch();
     const { spots } = useAppSelector((state) => state.spots);
     const { users } = useAppSelector((state) => state.users);
