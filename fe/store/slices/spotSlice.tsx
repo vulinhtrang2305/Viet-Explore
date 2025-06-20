@@ -35,7 +35,7 @@ export const fetchSpots = createAsyncThunk<Spot[]>(
     'spots/fetchSpots',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.get('/spots');
+            const response = await axios.get('http://localhost:9999/spots');
             return response.data.data; 
         } catch (error: any) {
             return rejectWithValue(error.message);

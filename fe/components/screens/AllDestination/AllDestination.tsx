@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import {
     View,
     Text,
@@ -7,11 +7,19 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import AppContext from '../../../provider/Context';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { fetchSpots } from '../../../store/slices/spotSlice';
 
 export default function AllDestination() {
-    const { spot } = useContext(AppContext);
+    const dispatch = useDispatch();
+    const { spots, loading, error } = useAppSelector((state) => state.spots);
+
+    useEffect(() => {
+        dispatch(fetchSpots());
+    }, [dispatch]);
+
     const navigation = useNavigation()
 
     return (
@@ -19,7 +27,7 @@ export default function AllDestination() {
             {/* <Text style={styles.title}>Điểm đến phổ biến</Text> */}
 
             <FlatList
-                data={spot}
+                data={spots}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('description', {
