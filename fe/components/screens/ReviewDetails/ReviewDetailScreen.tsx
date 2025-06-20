@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
     View,
     Text,
@@ -10,16 +10,33 @@ import {
 import { useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import AppContext from '../../../provider/Context';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { fetchSpots } from '../../../store/slices/spotSlice';
+import { fetchCategories } from '../../../store/slices/categorySlice';
+import { fetchReviews } from '../../../store/slices/reviewSlice';
+import { fetchUsers } from '../../../store/slices/userSlice';
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function ReviewDetailScreen() {
-    const { review, user, spot } = useContext(AppContext);
+    // const { review, user, spot } = useContext(AppContext);
+    const dispatch = useDispatch();
+    const { spots } = useAppSelector((state) => state.spots);
+    const { users } = useAppSelector((state) => state.users);
+    const { reviews } = useAppSelector((state) => state.reviews);
+
+    useEffect(() => {
+        dispatch(fetchSpots());
+        dispatch(fetchUsers());
+        dispatch(fetchReviews());
+    }, [dispatch]);
+
     const route = useRoute();
     const { spotId } = route.params;
 
-    const selectedSpot = spot?.find(s => s._id === spotId);
-    const spotReviews = review.filter(r => r.spotId === spotId);
+    const selectedSpot = spots?.find(s => s._id === spotId);
+    const spotReviews = reviews.filter(r => r.spotId === spotId);
 
     return (
         <View style={styles.container}>
@@ -29,7 +46,7 @@ export default function ReviewDetailScreen() {
                 data={spotReviews}
                 keyExtractor={item => item._id}
                 renderItem={({ item }) => {
-                    const userFind = user.find(u => u._id === item.userId);
+                    const userFind = users.find(u => u._id === item.userId);
                     return (
                         <View style={styles.card}>
                             <View style={styles.header}>
