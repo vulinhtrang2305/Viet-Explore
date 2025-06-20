@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import {
     View,
@@ -9,9 +9,17 @@ import {
     ScrollView,
 } from 'react-native';
 import AppContext from '../../../provider/Context';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { fetchSuggests } from '../../../store/slices/suggestSlice';
 
 export default function SuggestC() {
-    const { suggest } = useContext(AppContext);
+    const dispatch = useDispatch();
+    const { suggests } = useAppSelector((state) => state.suggests);
+
+    useEffect(() => {
+        dispatch(fetchSuggests());
+    }, [dispatch]);
 
     return (
         <View style={styles.container}>
@@ -19,7 +27,7 @@ export default function SuggestC() {
 
             <FlatList
                 horizontal
-                data={suggest}
+                data={suggests}
                 renderItem={({ item }) => <SuggestCard item={item} />}
                 keyExtractor={(item) => item._id}
                 showsHorizontalScrollIndicator={false}
