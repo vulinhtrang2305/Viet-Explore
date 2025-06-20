@@ -15,6 +15,7 @@ import ReviewDetailScreen from '../ReviewDetails/ReviewDetailScreen';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { fetchSpots } from '../../../store/slices/spotSlice';
+import LocationScreenButton from '../Location/MapScreen.web';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -60,6 +61,11 @@ export default function SpotDetailScreen() {
                         />
                     </TouchableOpacity>
                 )}
+            />
+            <LocationScreenButton
+                lat={selectedSpot.location.lat}
+                lng={selectedSpot.location.lng}
+                name={selectedSpot.name}
             />
 
             <View style={styles.infoRow}>
