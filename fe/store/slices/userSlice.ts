@@ -6,7 +6,7 @@ export const fetchUsers = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get("http://localhost:9999/users");
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }

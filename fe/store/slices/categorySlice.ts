@@ -6,9 +6,12 @@ export const fetchCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get("http://localhost:9999/categories");
-      return response.data;
+      return response.data.data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data?.message || "Lỗi từ server");
+      }
+      return rejectWithValue(error?.message || "Lỗi không xác định");
     }
   }
 );
@@ -33,7 +36,7 @@ const categoriesSlice = createSlice({
       })
       .addCase(fetchCategories.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload as string;
       });
   },
 });
