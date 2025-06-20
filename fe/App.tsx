@@ -60,7 +60,7 @@ function TabNavigator() {
 export default function App() {
   return (
     <Provider store={store}>
-      <AppProvider>
+      {/* <AppProvider> */}
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
@@ -90,7 +90,7 @@ export default function App() {
             />
           </Stack.Navigator>
         </NavigationContainer>
-      </AppProvider>
+      {/* </AppProvider> */}
     </Provider>
   );
 }
