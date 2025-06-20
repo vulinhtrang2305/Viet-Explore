@@ -1,16 +1,27 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useContext } from 'react';
-import AppContext from '../../../provider/Context';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { fetchCategories } from '../../../store/slices/categorySlice';
+import { fetchSpots } from '../../../store/slices/spotSlice';
 
 export default function DetailsLocation() {
   const route = useRoute();
   const { categoryId } = route.params;
   const navigation = useNavigation()
-  const { spot, category } = useContext(AppContext);
 
-  const filteredSpots = spot?.filter((item) => item.categoryId === categoryId);
-  const categoryName = category?.find((cat) => cat._id === categoryId)?.name || 'Danh mục';
+  const dispatch = useDispatch();
+  const { spots, loading, error } = useAppSelector((state) => state.spots);
+  const { categories, loading, error } = useAppSelector((state) => state.categories);
+
+  useEffect(() => {
+    dispatch(fetchSpots());
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  const filteredSpots = spots?.filter((item) => item.categoryId === categoryId);
+  const categoryName = categories?.find((cat) => cat._id === categoryId)?.name || 'Danh mục';
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
