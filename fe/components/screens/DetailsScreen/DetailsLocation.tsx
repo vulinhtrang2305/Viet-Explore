@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { fetchCategories } from '../../../store/slices/categorySlice';
@@ -10,8 +10,6 @@ export default function DetailsLocation() {
   const route = useRoute();
   const { categoryId } = route.params;
   const navigation = useNavigation()
-  // const { spot, category } = useContext(AppContext);
-
   const dispatch = useDispatch();
   const { spots } = useAppSelector((state) => state.spots);
   const { categories } = useAppSelector((state) => state.categories);
