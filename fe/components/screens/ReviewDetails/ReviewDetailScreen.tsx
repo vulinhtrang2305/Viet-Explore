@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
     View,
     Text,
@@ -9,11 +9,9 @@ import {
 } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import AppContext from '../../../provider/Context';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { fetchSpots } from '../../../store/slices/spotSlice';
-import { fetchCategories } from '../../../store/slices/categorySlice';
 import { fetchReviews } from '../../../store/slices/reviewSlice';
 import { fetchUsers } from '../../../store/slices/userSlice';
 
