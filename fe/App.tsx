@@ -61,40 +61,40 @@ export default function App() {
   return (
     <Provider store={store}>
       {/* <AppProvider> */}
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="MainTabs"
-              component={TabNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="list-details"
-              component={AllDestination}
-              options={{ title: "Điểm đến phổ biến" }}
-            />
-            <Stack.Screen
-              name="catgory-location"
-              component={DetailsLocation}
-              options={{ title: "Điểm đến nổi bật" }}
-            />
-            <Stack.Screen
-              name="description"
-              component={DescriptionC}
-              options={{ title: "Thông tin chi tiết" }}
-            />
-            <Stack.Screen
-              name="suggest"
-              component={SuggestC}
-              options={{ title: "Gợi ý chuyến đi nổi bật" }}
-            />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="MainTabs"
+            component={TabNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="list-details"
+            component={AllDestination}
+            options={{ title: "Điểm đến phổ biến" }}
+          />
+          <Stack.Screen
+            name="catgory-location"
+            component={DetailsLocation}
+            options={{ title: "Điểm đến nổi bật" }}
+          />
+          <Stack.Screen
+            name="description"
+            component={DescriptionC}
+            options={{ title: "Thông tin chi tiết" }}
+          />
+          <Stack.Screen
+            name="suggest"
+            component={SuggestC}
+            options={{ title: "Gợi ý chuyến đi nổi bật" }}
+          />
           <Stack.Screen
             name="suggestDetail"
             component={SuggestDetails}
             options={{ title: "Gợi ý chuyến đi chi tiết" }}
           />
-          </Stack.Navigator>
-        </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
       {/* </AppProvider> */}
     </Provider>
   );
