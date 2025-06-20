@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+    import React, { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import {
     View,
@@ -6,9 +6,7 @@ import {
     StyleSheet,
     FlatList,
     Image,
-    ScrollView,
 } from 'react-native';
-import AppContext from '../../../provider/Context';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { fetchSuggests } from '../../../store/slices/suggestSlice';
