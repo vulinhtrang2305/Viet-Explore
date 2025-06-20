@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
     View,
     Text,
@@ -10,6 +10,9 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import AppContext from '../../../provider/Context';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { fetchCategories } from '../../../store/slices/categorySlice';
 
 const iconMap: Record<string, { icon: string; color: string }> = {
     "Thiên nhiên": { icon: "leaf-outline", color: "#5EC58F" },
@@ -21,8 +24,13 @@ const iconMap: Record<string, { icon: string; color: string }> = {
 };
 
 export default function HeaderC() {
-    const { category } = useContext(AppContext);
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const { categories } = useAppSelector((state) => state.categories);
+
+    useEffect(() => {
+        dispatch(fetchCategories());
+    }, [dispatch]);
 
     return (
         <ScrollView style={styles.container}>
@@ -44,8 +52,8 @@ export default function HeaderC() {
             </View>
 
             <View style={styles.menuGrid}>
-                {Array.isArray(category) &&
-                    category.map((item, index) => {
+                {Array.isArray(categories) &&
+                    categories.map((item, index) => {
                         const info = iconMap[item.name] || {
                             icon: 'help-outline',
                             color: '#ccc',
