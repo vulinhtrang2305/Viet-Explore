@@ -8,12 +8,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
-import AppProvider from "./provider/AppProvider";
 import MainHomeC from "./components/screens/HomeSreen/MainHomeC";
 import DetailsLocation from "./components/screens/DetailsScreen/DetailsLocation";
 import AllDestination from "./components/screens/AllDestination/AllDestination";
 import DescriptionC from "./components/screens/DescriptionScreen/DescriptionC";
 import SuggestC from "./components/screens/SuggestLocation/SuggestC";
+import SuggestDetails from "./components/screens/SuggestLocation/SuggestDetail";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -88,6 +88,11 @@ export default function App() {
               component={SuggestC}
               options={{ title: "Gợi ý chuyến đi nổi bật" }}
             />
+          <Stack.Screen
+            name="suggestDetail"
+            component={SuggestDetails}
+            options={{ title: "Gợi ý chuyến đi chi tiết" }}
+          />
           </Stack.Navigator>
         </NavigationContainer>
       {/* </AppProvider> */}

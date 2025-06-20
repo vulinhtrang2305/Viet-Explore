@@ -1,4 +1,4 @@
-    import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import {
     View,
@@ -6,10 +6,12 @@ import {
     StyleSheet,
     FlatList,
     Image,
+    TouchableOpacity,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { fetchSuggests } from '../../../store/slices/suggestSlice';
+import { useNavigation } from '@react-navigation/native';
 
 export default function SuggestC() {
     const dispatch = useDispatch();
@@ -35,22 +37,28 @@ export default function SuggestC() {
 }
 
 function SuggestCard({ item }) {
+    const navigation = useNavigation()
+
     return (
-        <View style={styles.comboCard}>
-            <Image
-                source={{ uri: item.imageUrl[0] }}
-                style={styles.image}
-                resizeMode="cover"
-            />
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.description} numberOfLines={2}>
-                {item.description}
-            </Text>
-            <Text style={styles.date}>
-                <Ionicons name="calendar" size={13} color="#888" />{' '}
-                {new Date(item.createdAt).toLocaleDateString('vi-VN')}
-            </Text>
-        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('suggestDetail', {
+            suggestId: item?._id,
+        })}>
+            <View style={styles.comboCard}>
+                <Image
+                    source={{ uri: item.imageUrl[0] }}
+                    style={styles.image}
+                    resizeMode="cover"
+                />
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.description} numberOfLines={2}>
+                    {item.description}
+                </Text>
+                <Text style={styles.date}>
+                    <Ionicons name="calendar" size={13} color="#888" />{' '}
+                    {new Date(item.createdAt).toLocaleDateString('vi-VN')}
+                </Text>
+            </View>
+        </TouchableOpacity>
     );
 }
 
