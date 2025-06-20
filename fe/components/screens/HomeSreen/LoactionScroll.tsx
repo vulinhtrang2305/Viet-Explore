@@ -1,5 +1,5 @@
-import { Link, useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect } from "react";
 import {
     View,
     Text,
@@ -7,32 +7,44 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-} from 'react-native';
-import AppContext from '../../../provider/Context';
+} from "react-native";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../../hooks/useAppSelector";
+import { fetchSpots } from "../../../store/slices/spotSlice";
 
 const LocationScroll = (props: any) => {
-    const { spot } = useContext(AppContext)
-    const navigation = useNavigation()
+    const dispatch = useDispatch();
+    const { spots, loading, error } = useAppSelector((state) => state.spots);
+
+    useEffect(() => {
+        dispatch(fetchSpots());
+    }, [dispatch]);
+
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.headerRow}>
                 <Text style={styles.headerTitle}>Điểm đến phổ biến</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('list-details')}>
+                <TouchableOpacity onPress={() => navigation.navigate("list-details")}>
                     <Text style={styles.viewAll}>Tất cả</Text>
                 </TouchableOpacity>
             </View>
 
             <FlatList
-                data={spot.slice(0, 10)}
+                data={spots.slice(0, 10)}
                 keyExtractor={(item) => item.name}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingVertical: 12 }}
                 renderItem={({ item }) => (
                     <View style={styles.item}>
-                        <TouchableOpacity onPress={() => navigation.navigate('description', {
-                            spotId: item._id,
-                        })}>
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate("description", {
+                                    spotId: item._id,
+                                })
+                            }
+                        >
                             <Image source={{ uri: item.imageUrl[0] }} style={styles.image} />
                         </TouchableOpacity>
                         <Text style={styles.name}>{item.name}</Text>
@@ -41,8 +53,7 @@ const LocationScroll = (props: any) => {
             />
         </View>
     );
-}
-
+};
 
 export default LocationScroll;
 
@@ -52,21 +63,21 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     headerRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
     },
     headerTitle: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     viewAll: {
-        color: '#0080FF',
+        color: "#0080FF",
         fontSize: 14,
     },
     item: {
         marginRight: 16,
-        alignItems: 'center',
+        alignItems: "center",
     },
     image: {
         width: 120,
@@ -76,6 +87,6 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 14,
-        color: '#333',
+        color: "#333",
     },
 });
