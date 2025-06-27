@@ -106,4 +106,24 @@ module.exports = {
             });
         }
     },
+
+    logout: async (req, res) => {
+        try {
+            const accessToken = req.accessToken;
+            if (!accessToken) {
+                return res.json({ message: "ban ko co quyen truy cap" })
+            }
+
+            await BlackListToken.create({ token: accessToken });
+
+
+            return res.json({
+                message: "dang xuat thanh cong"
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message,
+            });
+        }
+    },
 };
