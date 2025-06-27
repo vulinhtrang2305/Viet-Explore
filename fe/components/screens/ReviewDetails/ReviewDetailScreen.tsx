@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     },
     reviewImage: {
         width: screenWidth * 0.6,
-        height: 200,
+        height: 500,
         borderRadius: 10,
         marginRight: 10,
     },
