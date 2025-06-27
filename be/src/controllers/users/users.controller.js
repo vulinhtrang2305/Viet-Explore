@@ -23,13 +23,13 @@ module.exports = {
             const { username, email, password } = req.body;
             if (!email || !password || !username) {
                 return res.json({
-                    message: "nhập thiếu thông tin vui lòng nhâp lại",
+                    message: "Nhập thiếu thông tin vui lòng nhâp lại",
                 });
             }
             // validate
             const userExist = await User.findOne({ email });
             if (userExist) {
-                return res.status(500).json({ message: "User da ton tai" });
+                return res.status(500).json({ message: "Tài khoản đã tồn tại trước đó" });
             }
 
             const passwordHash = await hashMake(password);
@@ -55,25 +55,25 @@ module.exports = {
             if (!body.email || !body.password) {
                 return res
                     .status(200)
-                    .json({ message: "nhap thieu thong tin vui long nhap lai" });
+                    .json({ message: "Nhập thiếu thông tin vui lòng nhập lại" });
             }
             // tim xem co user ko
             // ko co thi bao loi
             const user = await User.findOne({ email: body.email });
             if (!user) {
-                return res.status(500).json({ message: "tai khoan nay khong ton tai" });
+                return res.status(500).json({ message: "Tài khoản này không tồn tại" });
             } else {
                 // tài khoản tồn tại thì check password
                 // password ma nguoi dung vut xuong la body.password
                 const checkPassword = await hashCheck(body.password, user.password);
 
                 if (!checkPassword) {
-                    return res.status(500).json({ message: "Sai mat khau" });
+                    return res.status(500).json({ message: "Sai mật khẩu" });
                 }
 
                 // neu password thong qua thi check tiep
                 if (user.status === false) {
-                    return res.status(500).json({ message: "Tai khoan cua ban da bi khoa" });
+                    return res.status(500).json({ message: "Tài khoản của bạn đã bị khóa" });
                 }
             }
 
@@ -88,7 +88,7 @@ module.exports = {
                 password: 'not show'
             }
 
-            return res.json({ message: "login thành công", Token, user: userData })
+            return res.json({ message: "Login thành công", Token, user: userData })
 
         } catch (error) {
             return res.status(500).json({
@@ -100,7 +100,7 @@ module.exports = {
     getProfile: async (req, res) => {
         try {
             const user = req.user;
-            return res.json({ message: "lay thong tin thanh cong", user })
+            return res.json({ message: "Lấy thông tin thành công", user })
         } catch (error) {
             return res.status(500).json({
                 message: error.message,
@@ -112,14 +112,14 @@ module.exports = {
         try {
             const accessToken = req.accessToken;
             if (!accessToken) {
-                return res.json({ message: "ban ko co quyen truy cap" })
+                return res.json({ message: "Bạn không có quyền truy cập" })
             }
 
             await BlackListToken.create({ token: accessToken });
 
 
             return res.json({
-                message: "dang xuat thanh cong"
+                message: "Đăng xuất thành công"
             })
         } catch (error) {
             return res.status(500).json({

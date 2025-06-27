@@ -7,12 +7,12 @@ module.exports = async (req, res, next) => {
         // const accessToken = req.headers["authorization"];
         const accessToken = req.get("authorization")?.split(" ").slice(-1).join("");
         if (!accessToken) {
-            return res.json({ message: "ban ko co quyen truy cap" })
+            return res.json({ message: "Token này đã hết hạn và bạn không có quyền truy cập" })
         }
 
         const blacklist = await BlackListToken.findOne({ token: accessToken })
         if (blacklist) {
-            return res.json({ message: "ban ko co quyen truy cap" })
+            return res.json({ message: "Bạn không có quyền truy cập" })
         }
 
         // tra ve true/ false
