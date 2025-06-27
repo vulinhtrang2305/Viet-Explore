@@ -14,6 +14,7 @@ import AllDestination from "./components/screens/AllDestination/AllDestination";
 import DescriptionC from "./components/screens/DescriptionScreen/DescriptionC";
 import SuggestC from "./components/screens/SuggestLocation/SuggestC";
 import SuggestDetails from "./components/screens/SuggestLocation/SuggestDetail";
+import UserProfile from "./components/screens/Profile/UserProfile";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,8 +42,8 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="SuggestTab"
-        component={AllDestination}
+        name="UserTab"
+        component={UserProfile}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
