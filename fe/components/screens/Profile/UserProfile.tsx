@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+
 const UserProfile = () => {
     const menuItems = [
         { icon: 'list', label: 'Đơn hàng của tôi' },
@@ -18,7 +19,7 @@ const UserProfile = () => {
 
             <TouchableOpacity style={styles.loginRow} onPress={() => console.log('Đăng nhập')}>
                 <Image
-                    source={require('../assets/avatar-placeholder.png')} 
+                    source={require("../../../assets/Sample_User_Icon.png")} 
                     style={styles.avatar}
                 />
                 <Text style={styles.loginText}>Đăng nhập</Text>
