@@ -14,7 +14,7 @@ export default function AllDestination() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Điểm đến phổ biến</Text>
+            <Text style={styles.title}>Điểm đến phổ biến1111111111111111111</Text>
 
             <FlatList
                 data={spot}
