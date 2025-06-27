@@ -1,5 +1,6 @@
 const User = require("../../models/Users/user.model");
 const { hashMake, hashCheck } = require("../../utils/hash");
+const { createAccessToken } = require("../../utils/jwt");
 
 module.exports = {
     getAllUser: async (req, res) => {
@@ -63,7 +64,7 @@ module.exports = {
             } else {
                 // tài khoản tồn tại thì check password
                 // password ma nguoi dung vut xuong la body.password
-                const checkPassword = await hashCheck(body.password, user.passwordHash);
+                const checkPassword = await hashCheck(body.password, user.password);
 
                 if (!checkPassword) {
                     return res.status(500).json({ message: "Sai mat khau" });
@@ -80,7 +81,7 @@ module.exports = {
                 id: user._id
             })
 
-            return res.json({ Token })
+            return res.json({ message: "login thành công", data: Token })
 
         } catch (error) {
             return res.status(500).json({
