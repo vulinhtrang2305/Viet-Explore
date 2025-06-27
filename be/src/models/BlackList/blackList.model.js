@@ -6,6 +6,6 @@ const BlackListSchema = new Schema({
         type: String,
         required: true,
     },
-}, { timestamps: true, collection: "BlackLists" })
+}, { timestamps: true })
 
 module.exports = model("BlackList", BlackListSchema)
