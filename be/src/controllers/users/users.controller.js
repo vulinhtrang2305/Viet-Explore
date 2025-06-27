@@ -81,7 +81,13 @@ module.exports = {
                 id: user._id
             })
 
-            return res.json({ message: "login thành công", data: Token })
+            // .doc de hien lay dc het du lieu
+            const userData = {
+                ...user._doc,
+                password: 'not show'
+            }
+
+            return res.json({ message: "login thành công", Token, user: userData })
 
         } catch (error) {
             return res.status(500).json({
