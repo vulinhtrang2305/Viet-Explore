@@ -35,7 +35,7 @@ module.exports = async (req, res, next) => {
         }
 
         req.user = newUser;
-        re.accessToken = accessToken;
+        req.accessToken = accessToken;
 
         next();
     } catch (error) {
