@@ -46,4 +46,46 @@ module.exports = {
             return res.status(500).json({ message: error.message });
         }
     },
+
+    login: async (req, res) => {
+        try {
+            const body = req.body;
+            if (!body.email || !body.password) {
+                return res
+                    .status(200)
+                    .json({ message: "nhap thieu thong tin vui long nhap lai" });
+            }
+            // tim xem co user ko
+            // ko co thi bao loi
+            const user = await User.findOne({ email: body.email });
+            if (!user) {
+                return res.status(500).json({ message: "tai khoan nay khong ton tai" });
+            } else {
+                // tài khoản tồn tại thì check password
+                // password ma nguoi dung vut xuong la body.password
+                const checkPassword = await hashCheck(body.password, user.passwordHash);
+
+                if (!checkPassword) {
+                    return res.status(500).json({ message: "Sai mat khau" });
+                }
+
+                // neu password thong qua thi check tiep
+                if (user.status === false) {
+                    return res.status(500).json({ message: "Tai khoan cua ban da bi khoa" });
+                }
+            }
+
+            // tao token (access token)
+            const Token = await createAccessToken({
+                id: user._id
+            })
+
+            return res.json({ Token })
+
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message,
+            });
+        }
+    },
 };
