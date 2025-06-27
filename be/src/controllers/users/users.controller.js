@@ -1,6 +1,7 @@
 const User = require("../../models/Users/user.model");
 const { hashMake, hashCheck } = require("../../utils/hash");
 const { createAccessToken } = require("../../utils/jwt");
+const BlackListToken = require("../../models/BlackList/blackList.model");
 
 module.exports = {
     getAllUser: async (req, res) => {
