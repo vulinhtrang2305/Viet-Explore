@@ -1,5 +1,5 @@
 const User = require("../../models/Users/user.model");
-const { hashMake } = require("../../utils/hash");
+const { hashMake, hashCheck } = require("../../utils/hash");
 
 module.exports = {
     getAllUser: async (req, res) => {
