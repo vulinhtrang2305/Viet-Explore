@@ -28,7 +28,7 @@ export default function SignInScreen() {
 
     useEffect(() => {
         if (userInfo) {
-            navigation.replace("MainTabs");
+            navigation.goBack("UserTab");
         }
     }, [userInfo]);
 
@@ -89,12 +89,12 @@ export default function SignInScreen() {
                 </Text>
             )}
 
-            <Text style={styles.signupText}>
-                Don’t have an account?
-                <TouchableOpacity onPress={() => navigation.navigate("register")}>
+            <TouchableOpacity onPress={() => navigation.navigate("register")}>
+                <Text style={styles.signupText}>
+                    Don’t have an account?
                     <Text style={styles.signupLink}> Sign Up</Text>
-                </TouchableOpacity>
-            </Text>
+                </Text>
+            </TouchableOpacity>
 
             <Text style={styles.or}>Or sign in with:</Text>
 

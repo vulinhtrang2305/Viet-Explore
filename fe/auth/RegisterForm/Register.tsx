@@ -28,7 +28,7 @@ export default function RegisterScreen() {
 
     useEffect(() => {
         if (userInfo) {
-            navigation.replace("login");
+            navigation.goBack("login");
         }
     }, [userInfo]);
 
@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
         paddingVertical: 14,
         borderRadius: 25,
         alignItems: 'center',
-        marginTop: 30,
     },
     buttonText: {
         color: '#fff',

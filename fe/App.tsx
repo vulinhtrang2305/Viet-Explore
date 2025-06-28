@@ -102,7 +102,7 @@ export default function App() {
             options={{ title: "Đăng nhập" }}
           />
           <Stack.Screen
-            name="regist"
+            name="register"
             component={RegisterScreen}
             options={{ title: "Đăng ký tài khoản mới" }}
           />
