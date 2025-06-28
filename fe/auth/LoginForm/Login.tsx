@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -7,11 +7,36 @@ import {
     StyleSheet,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import LinearGradient from 'react-native-linear-gradient';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { loginUser, resetError } from '../../store/slices/userSlice';
 
 export default function SignInScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+
+    const { loading, error, userInfo } = useSelector((state) => state.users);
+
+    useEffect(() => {
+        dispatch(resetError());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (userInfo) {
+            navigation.replace('home');
+        }
+    }, [userInfo]);
+
+    const handleLogin = () => {
+        if (!email || !password) {
+            alert('Please enter both email and password');
+            return;
+        }
+        dispatch(loginUser({ email, password }));
+    };
 
     return (
         <View style={styles.container}>
@@ -24,6 +49,7 @@ export default function SignInScreen() {
                 keyboardType="email-address"
                 value={email}
                 onChangeText={setEmail}
+                autoCapitalize="none"
             />
 
             <View style={styles.passwordRow}>
@@ -40,17 +66,17 @@ export default function SignInScreen() {
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.button}>
-                {/* <LinearGradient
-                    colors={['#FFC107', '#FF9800']}
-                    style={styles.gradient}
-                >
-                    <Text style={styles.buttonText}>SIGN IN</Text>
-                </LinearGradient> */}
-                <TouchableOpacity style={styles.plainButton}>
-                    <Text style={styles.buttonText}>SIGN IN</Text>
-                </TouchableOpacity>
+            <TouchableOpacity style={styles.plainButton} onPress={handleLogin}>
+                <Text style={styles.buttonText}>
+                    {loading ? 'Signing in...' : 'SIGN IN'}
+                </Text>
             </TouchableOpacity>
+
+            {error && (
+                <Text style={styles.errorText}>
+                    {error}
+                </Text>
+            )}
 
             <Text style={styles.signupText}>
                 Don’t have an account?
@@ -70,7 +96,6 @@ export default function SignInScreen() {
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -112,20 +137,22 @@ const styles = StyleSheet.create({
         color: '#007BFF',
         fontSize: 14,
     },
-    button: {
-        marginTop: 30,
-        borderRadius: 25,
-        overflow: 'hidden',
-    },
-    gradient: {
+    plainButton: {
+        backgroundColor: '#FF9800',
         paddingVertical: 14,
         borderRadius: 25,
         alignItems: 'center',
+        marginTop: 30,
     },
     buttonText: {
         color: '#fff',
         fontWeight: '700',
         fontSize: 16,
+    },
+    errorText: {
+        color: 'red',
+        textAlign: 'center',
+        marginTop: 10,
     },
     signupText: {
         textAlign: 'center',
@@ -158,12 +185,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: 10,
         backgroundColor: '#fff',
-    },
-    plainButton: {
-        backgroundColor: '#FF9800',
-        paddingVertical: 14,
-        borderRadius: 25,
-        alignItems: 'center',
-        marginTop: 30,
     },
 });
