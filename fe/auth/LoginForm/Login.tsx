@@ -5,7 +5,8 @@ import {
     TextInput,
     TouchableOpacity,
     StyleSheet,
-    Image
+    Image,
+    ToastAndroid
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,7 +34,11 @@ export default function SignInScreen() {
 
     const handleLogin = () => {
         if (!email || !password) {
-            alert('Please enter both email and password');
+            ToastAndroid.showWithGravity(
+                'Hãy nhập đầy đủ thông tin',
+                ToastAndroid.SHORT,
+                ToastAndroid.TOP
+            );
             return;
         }
         dispatch(loginUser({ email, password }));
@@ -41,10 +46,10 @@ export default function SignInScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sign In</Text>
+            {/* <Text style={styles.title}>Sign In</Text> */}
 
             <Image
-                source={require('../../assets/logo.png')}
+                source={require('../../assets/logo.svg')}
                 style={styles.logo}
             />
 
@@ -195,10 +200,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     logo: {
-        width: 120,
-        height: 120,
+        width: 300,
+        height: 300,
         resizeMode: 'contain',
         alignSelf: 'center',
-        marginBottom: 20,
+        marginLeft: 5
     },
 });
