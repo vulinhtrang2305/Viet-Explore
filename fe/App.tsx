@@ -16,6 +16,7 @@ import SuggestC from "./components/screens/SuggestLocation/SuggestC";
 import SuggestDetails from "./components/screens/SuggestLocation/SuggestDetail";
 import UserProfile from "./components/screens/Profile/UserProfile";
 import Login from "../fe/auth/LoginForm/Login"
+import RegisterScreen from "./auth/RegisterForm/Register";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -102,7 +103,7 @@ export default function App() {
           />
           <Stack.Screen
             name="regist"
-            component={Login}
+            component={RegisterScreen}
             options={{ title: "Đăng ký tài khoản mới" }}
           />
         </Stack.Navigator>
