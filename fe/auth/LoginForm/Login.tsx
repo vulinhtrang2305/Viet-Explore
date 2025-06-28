@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     StyleSheet,
+    Image
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,6 +42,11 @@ export default function SignInScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Sign In</Text>
+
+            <Image
+                source={require('../../assets/logo.png')}
+                style={styles.logo}
+            />
 
             <TextInput
                 style={styles.input}
@@ -187,5 +193,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: 10,
         backgroundColor: '#fff',
+    },
+    logo: {
+        width: 120,
+        height: 120,
+        resizeMode: 'contain',
+        alignSelf: 'center',
+        marginBottom: 20,
     },
 });
