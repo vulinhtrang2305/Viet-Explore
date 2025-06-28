@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const UserProfile = () => {
     const menuItems = [
-        { icon: 'list', label: 'Đơn hàng của tôi' },
+        { icon: 'list', label: 'Thông tin chi tiết' },
         { icon: 'megaphone', label: 'Khuyến mãi' },
         { icon: 'camera', label: 'Thêm hình ảnh' },
         { icon: 'bookmark', label: 'Ưa thích' },
@@ -32,7 +32,7 @@ const UserProfile = () => {
                     <TouchableOpacity
                         style={styles.menuItem}
                         key={index}
-                        onPress={() => console.log(`Pressed ${item.label}`)}
+                        onPress={() => navigation.navigate(`Pressed ${item.label}`)}
                     >
                         <Ionicons name={item.icon} size={22} color="#444" style={styles.icon} />
                         <Text style={styles.menuText}>{item.label}</Text>
