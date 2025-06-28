@@ -110,7 +110,7 @@ export default function App() {
           <Stack.Screen
             name="UserProfileDetail"
             component={ProfileDetail}
-            options={{ title: "Đăng ký tài khoản mới" }}
+            options={{ title: "Chỉnh sửa thông tin cá nhân" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
