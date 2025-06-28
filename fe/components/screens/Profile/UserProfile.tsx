@@ -5,16 +5,17 @@ import { useNavigation } from '@react-navigation/native';
 
 const UserProfile = () => {
     const menuItems = [
-        { icon: 'list', label: 'Thông tin chi tiết' },
-        { icon: 'megaphone', label: 'Khuyến mãi' },
-        { icon: 'camera', label: 'Thêm hình ảnh' },
-        { icon: 'bookmark', label: 'Ưa thích' },
-        { icon: 'star', label: 'Đánh giá TripHunter' },
-        { icon: 'person-add', label: 'Tìm bạn bè' },
-        { icon: 'settings', label: 'Cài đặt' },
+        { icon: 'list', label: 'Thông tin chi tiết', component: 'UserProfileDetail' },
+        { icon: 'megaphone', label: 'Khuyến mãi', component: 'PromotionsScreen' },
+        { icon: 'camera', label: 'Thêm hình ảnh', component: 'AddImageScreen' },
+        { icon: 'bookmark', label: 'Ưa thích', component: 'FavoritesScreen' },
+        { icon: 'star', label: 'Đánh giá TripHunter', component: 'RateAppScreen' },
+        { icon: 'person-add', label: 'Tìm bạn bè', component: 'FindFriendsScreen' },
+        { icon: 'settings', label: 'Cài đặt', component: 'SettingsScreen' },
     ];
 
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Thông tin chi tiết</Text>
@@ -32,7 +33,7 @@ const UserProfile = () => {
                     <TouchableOpacity
                         style={styles.menuItem}
                         key={index}
-                        onPress={() => navigation.navigate(`Pressed ${item.label}`)}
+                        onPress={() => item.component && navigation.navigate(item.component)}
                     >
                         <Ionicons name={item.icon} size={22} color="#444" style={styles.icon} />
                         <Text style={styles.menuText}>{item.label}</Text>
