@@ -18,7 +18,7 @@ export const fetchUsers = createAsyncThunk(
 
 // Đăng ký user
 export const registerUser = createAsyncThunk(
-  "users/registerUser",
+  "users/register",
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${API_URL}/register`, userData);
@@ -31,7 +31,7 @@ export const registerUser = createAsyncThunk(
 
 // Đăng nhập user
 export const loginUser = createAsyncThunk(
-  "users/loginUser",
+  "users/login",
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${API_URL}/login`, credentials);
@@ -45,7 +45,7 @@ export const loginUser = createAsyncThunk(
 
 // Lấy thông tin profile
 export const getProfile = createAsyncThunk(
-  "users/getProfile",
+  "users/profile",
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
@@ -63,7 +63,7 @@ export const getProfile = createAsyncThunk(
 
 // Đăng xuất
 export const logoutUser = createAsyncThunk(
-  "users/logoutUser",
+  "users/logout",
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");

@@ -26,7 +26,7 @@ export default function SignInScreen() {
 
     useEffect(() => {
         if (userInfo) {
-            navigation.replace('home');
+            navigation.replace("MainTabs");
         }
     }, [userInfo]);
 
@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     },
     passwordRow: {
         position: 'relative',
+        marginBottom: 20,
     },
     passwordInput: {
         height: 50,
@@ -163,6 +164,7 @@ const styles = StyleSheet.create({
     signupLink: {
         color: '#FF9800',
         fontWeight: '600',
+        marginTop: 50,
     },
     or: {
         textAlign: 'center',
