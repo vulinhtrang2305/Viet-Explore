@@ -5,9 +5,9 @@ import {
     TextInput,
     TouchableOpacity,
     StyleSheet,
-    Image,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function SignInScreen() {
     const [email, setEmail] = useState('');
@@ -41,12 +41,15 @@ export default function SignInScreen() {
             </View>
 
             <TouchableOpacity style={styles.button}>
-                <LinearGradient
+                {/* <LinearGradient
                     colors={['#FFC107', '#FF9800']}
                     style={styles.gradient}
                 >
                     <Text style={styles.buttonText}>SIGN IN</Text>
-                </LinearGradient>
+                </LinearGradient> */}
+                <TouchableOpacity style={styles.plainButton}>
+                    <Text style={styles.buttonText}>SIGN IN</Text>
+                </TouchableOpacity>
             </TouchableOpacity>
 
             <Text style={styles.signupText}>
@@ -155,5 +158,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: 10,
         backgroundColor: '#fff',
+    },
+    plainButton: {
+        backgroundColor: '#FF9800',
+        paddingVertical: 14,
+        borderRadius: 25,
+        alignItems: 'center',
+        marginTop: 30,
     },
 });

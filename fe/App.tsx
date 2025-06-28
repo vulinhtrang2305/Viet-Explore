@@ -15,6 +15,7 @@ import DescriptionC from "./components/screens/DescriptionScreen/DescriptionC";
 import SuggestC from "./components/screens/SuggestLocation/SuggestC";
 import SuggestDetails from "./components/screens/SuggestLocation/SuggestDetail";
 import UserProfile from "./components/screens/Profile/UserProfile";
+import Login from "../fe/auth/LoginForm/Login"
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -93,6 +94,11 @@ export default function App() {
             name="suggestDetail"
             component={SuggestDetails}
             options={{ title: "Gợi ý chuyến đi chi tiết" }}
+          />
+          <Stack.Screen
+            name="login"
+            component={Login}
+            options={{ title: "Đăng nhập" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

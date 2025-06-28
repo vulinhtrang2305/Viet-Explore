@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const UserProfile = () => {
     const menuItems = [
@@ -13,13 +14,14 @@ const UserProfile = () => {
         { icon: 'settings', label: 'Cài đặt' },
     ];
 
+    const navigation = useNavigation()
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Thông tin chi tiết</Text>
 
-            <TouchableOpacity style={styles.loginRow} onPress={() => console.log('Đăng nhập')}>
+            <TouchableOpacity style={styles.loginRow} onPress={() => navigation.navigate("login")}>
                 <Image
-                    source={require("../../../assets/Sample_User_Icon.png")} 
+                    source={require("../../../assets/Sample_User_Icon.png")}
                     style={styles.avatar}
                 />
                 <Text style={styles.loginText}>Đăng nhập</Text>
