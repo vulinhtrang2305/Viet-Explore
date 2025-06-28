@@ -100,6 +100,11 @@ export default function App() {
             component={Login}
             options={{ title: "Đăng nhập" }}
           />
+          <Stack.Screen
+            name="regist"
+            component={Login}
+            options={{ title: "Đăng ký tài khoản mới" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
       {/* </AppProvider> */}
