@@ -31,7 +31,10 @@ module.exports = async (req, res, next) => {
         const newUser = {
             id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            phone: user.phone,
+            dob: user.dob,
+            address: user.address
         }
 
         req.user = newUser;

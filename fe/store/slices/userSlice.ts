@@ -61,6 +61,24 @@ export const getProfile = createAsyncThunk(
   }
 );
 
+// Cập nhật thông tin user
+export const updateUser = createAsyncThunk(
+  "users/updateUser",
+  async (updatedData, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(`${API_URL}/profile`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data.user;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 // Đăng xuất
 export const logoutUser = createAsyncThunk(
   "users/logout",
@@ -94,6 +112,9 @@ const usersSlice = createSlice({
   reducers: {
     resetError: (state) => {
       state.error = null;
+    },
+    resetMessage: (state) => {
+      state.message = null;
     },
   },
   extraReducers: (builder) => {
@@ -155,6 +176,21 @@ const usersSlice = createSlice({
         state.error = action.payload;
       })
 
+      // Update user
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userInfo = action.payload;
+        state.message = "Thông tin đã được cập nhật";
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
       // Logout
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.userInfo = null;
@@ -167,5 +203,5 @@ const usersSlice = createSlice({
   },
 });
 
-export const { resetError } = usersSlice.actions;
+export const { resetError, resetMessage } = usersSlice.actions;
 export default usersSlice.reducer;
