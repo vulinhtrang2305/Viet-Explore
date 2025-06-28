@@ -8,12 +8,12 @@ import {
     Image,
     ToastAndroid
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { loginUser, resetError } from '../../store/slices/userSlice';
+import { registerUser, resetError } from '../../store/slices/userSlice';
 
-export default function SignInScreen() {
+export default function RegisterScreen() {
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -28,12 +28,12 @@ export default function SignInScreen() {
 
     useEffect(() => {
         if (userInfo) {
-            navigation.goBack("UserTab");
+            navigation.goBack("login");
         }
     }, [userInfo]);
 
-    const handleLogin = () => {
-        if (!email || !password) {
+    const handleRegister = () => {
+        if (!email || !password || !username) {
             ToastAndroid.showWithGravity(
                 'Hãy nhập đầy đủ thông tin',
                 ToastAndroid.SHORT,
@@ -41,7 +41,7 @@ export default function SignInScreen() {
             );
             return;
         }
-        dispatch(loginUser({ email, password }));
+        dispatch(registerUser({ username, email, password }));
     };
 
     return (
@@ -51,6 +51,15 @@ export default function SignInScreen() {
             <Image
                 source={require('../../assets/logo.svg')}
                 style={styles.logo}
+            />
+
+            <TextInput
+                style={styles.input}
+                placeholder="Username"
+                placeholderTextColor="#aaa"
+                value={username}
+                onChangeText={setUsername}
+                autoCapitalize="none"
             />
 
             <TextInput
@@ -72,14 +81,11 @@ export default function SignInScreen() {
                     value={password}
                     onChangeText={setPassword}
                 />
-                <TouchableOpacity>
-                    <Text style={styles.forgot}>Forgot password</Text>
-                </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.plainButton} onPress={handleLogin}>
+            <TouchableOpacity style={styles.plainButton} onPress={handleRegister}>
                 <Text style={styles.buttonText}>
-                    {loading ? 'Signing in...' : 'SIGN IN'}
+                    {loading ? 'Signing in...' : 'Đăng Ký'}
                 </Text>
             </TouchableOpacity>
 
@@ -88,24 +94,6 @@ export default function SignInScreen() {
                     {error}
                 </Text>
             )}
-
-            <TouchableOpacity onPress={() => navigation.navigate("register")}>
-                <Text style={styles.signupText}>
-                    Don’t have an account?
-                    <Text style={styles.signupLink}> Sign Up</Text>
-                </Text>
-            </TouchableOpacity>
-
-            <Text style={styles.or}>Or sign in with:</Text>
-
-            <View style={styles.socialRow}>
-                <TouchableOpacity style={styles.socialButton}>
-                    <FontAwesome name="facebook" size={20} color="#3b5998" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.socialButton}>
-                    <FontAwesome name="google" size={20} color="#DB4437" />
-                </TouchableOpacity>
-            </View>
         </View>
     );
 }
@@ -156,7 +144,6 @@ const styles = StyleSheet.create({
         paddingVertical: 14,
         borderRadius: 25,
         alignItems: 'center',
-        marginTop: 30,
     },
     buttonText: {
         color: '#fff',
