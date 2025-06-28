@@ -7,32 +7,51 @@ import {
     ScrollView,
     TouchableOpacity,
     TextInput,
+    ToastAndroid,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile } from '../../store/slices/userSlice';
+import { getProfile, updateUser } from '../../store/slices/userSlice';
 
 export default function ProfileDetail() {
     const dispatch = useDispatch();
-    const userInfo = useSelector((state: any) => state.users.userInfo);
+    const { userInfo, loading, error, message } = useSelector((state: any) => state.users);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [mobile, setMobile] = useState('');
     const [password, setPassword] = useState('');
+    const [address, setAddress] = useState('');
 
     useEffect(() => {
         if (!userInfo) {
             dispatch(getProfile());
         } else {
-            setName(userInfo.name || '');
+            setName(userInfo.username || '');
             setEmail(userInfo.email || '');
             setMobile(userInfo.phone || '');
+            setAddress(userInfo.address || '');
         }
     }, [userInfo]);
 
-    const handleUpdate = () => {
-        console.log('Update clicked');
-        // Gọi API update ở đây
+    const handleUpdate = async () => {
+        if (!name || !email || !mobile || !address) {
+            ToastAndroid.show("Vui lòng điền đầy đủ thông tin", ToastAndroid.SHORT);
+            return;
+        }
+
+        const updatedData = {
+            username: name,
+            email,
+            phone: mobile,
+            ...(password ? { password } : {}),
+        };
+
+        try {
+            await dispatch(updateUser(updatedData)).unwrap();
+            ToastAndroid.show("Cập nhật thành công", ToastAndroid.SHORT);
+        } catch (err) {
+            ToastAndroid.show(`Lỗi: ${err}`, ToastAndroid.LONG);
+        }
     };
 
     return (
@@ -69,15 +88,16 @@ export default function ProfileDetail() {
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
+                    placeholder="Address"
+                    value={address}
+                    onChangeText={setAddress}
                 />
             </View>
 
             <TouchableOpacity style={styles.updateButton} onPress={handleUpdate}>
-                <Text style={styles.updateText}>Update</Text>
+                <Text style={styles.updateText}>
+                    {loading ? 'Đang cập nhật...' : 'Update'}
+                </Text>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -103,14 +123,6 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-    },
-    cameraIcon: {
-        position: 'absolute',
-        bottom: 0,
-        right: 100 / 2 - 15,
-        backgroundColor: '#007AFF',
-        borderRadius: 15,
-        padding: 5,
     },
     form: {
         width: '100%',
