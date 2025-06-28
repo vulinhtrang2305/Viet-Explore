@@ -11,9 +11,11 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, updateUser } from '../../store/slices/userSlice';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ProfileDetail() {
     const dispatch = useDispatch();
+    const navigation = useNavigation()
     const { userInfo, loading, error, message } = useSelector((state: any) => state.users);
 
     const [name, setName] = useState('');
@@ -58,6 +60,7 @@ export default function ProfileDetail() {
 
         try {
             await dispatch(updateUser(updatedData)).unwrap();
+            navigation.goBack("UserTab");
             ToastAndroid.show("Cập nhật thành công", ToastAndroid.SHORT);
         } catch (err) {
             ToastAndroid.show(`Lỗi: ${err}`, ToastAndroid.LONG);
@@ -94,7 +97,7 @@ export default function ProfileDetail() {
                     placeholder="Date of birth"
                     value={formatDate(dob)}
                     onChangeText={setDob}
-                    // keyboardType=""
+                // keyboardType=""
                 />
                 <TextInput
                     style={styles.input}
