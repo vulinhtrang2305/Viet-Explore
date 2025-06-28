@@ -20,6 +20,15 @@ export default function ProfileDetail() {
     const [email, setEmail] = useState('');
     const [mobile, setMobile] = useState('');
     const [address, setAddress] = useState('');
+    const [dob, setDob] = useState('');
+
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, "0");
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const year = String(d.getFullYear());
+        return `${day}/${month}/${year}`;
+    };
 
     useEffect(() => {
         if (!userInfo) {
@@ -29,11 +38,12 @@ export default function ProfileDetail() {
             setEmail(userInfo?.email || '');
             setMobile(userInfo?.phone || '');
             setAddress(userInfo?.address || '');
+            setDob(userInfo?.dob || '');
         }
     }, [userInfo]);
 
     const handleUpdate = async () => {
-        if (!name || !email || !mobile || !address) {
+        if (!name || !email || !mobile || !address || !dob) {
             ToastAndroid.show("Vui lòng điền đầy đủ thông tin", ToastAndroid.SHORT);
             return;
         }
@@ -42,7 +52,8 @@ export default function ProfileDetail() {
             username: name,
             email,
             phone: mobile,
-            address: address
+            address: address,
+            dob: dob
         };
 
         try {
@@ -77,6 +88,13 @@ export default function ProfileDetail() {
                     value={email}
                     onChangeText={setEmail}
                     keyboardType="email-address"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Date of birth"
+                    value={formatDate(dob)}
+                    onChangeText={setDob}
+                    // keyboardType=""
                 />
                 <TextInput
                     style={styles.input}
