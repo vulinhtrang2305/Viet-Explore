@@ -8,7 +8,6 @@ import {
     TouchableOpacity,
     TextInput,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile } from '../../store/slices/userSlice';
 
