@@ -19,17 +19,16 @@ export default function ProfileDetail() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [mobile, setMobile] = useState('');
-    const [password, setPassword] = useState('');
     const [address, setAddress] = useState('');
 
     useEffect(() => {
         if (!userInfo) {
             dispatch(getProfile());
         } else {
-            setName(userInfo.username || '');
-            setEmail(userInfo.email || '');
-            setMobile(userInfo.phone || '');
-            setAddress(userInfo.address || '');
+            setName(userInfo?.username || '');
+            setEmail(userInfo?.email || '');
+            setMobile(userInfo?.phone || '');
+            setAddress(userInfo?.address || '');
         }
     }, [userInfo]);
 
@@ -43,7 +42,7 @@ export default function ProfileDetail() {
             username: name,
             email,
             phone: mobile,
-            ...(password ? { password } : {}),
+            address: address
         };
 
         try {
