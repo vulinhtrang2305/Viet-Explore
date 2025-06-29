@@ -87,5 +87,42 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
-    }
+    },
+
+    deleteFavourite: async (req, res) => {
+        const { userId, spotId } = req.body;
+
+        try {
+            const favourite = await Favourite.findOne({ userId });
+
+            if (!favourite) {
+                return res.status(404).json({
+                    message: "Không tìm thấy mục yêu thích của người dùng này."
+                });
+            }
+
+            // Lọc ra spotId khác spotId cần xoá
+            const updatedSpotIds = favourite.spotId.filter(id => id !== spotId);
+
+            if (updatedSpotIds.length === 0) {
+                // Nếu không còn spotId nào thì xoá hẳn bản ghi
+                await Favourite.deleteOne({ userId });
+                return res.status(200).json({
+                    message: "Đã xoá địa điểm khỏi mục yêu thích và xoá bản ghi vì không còn địa điểm nào."
+                });
+            } else {
+                // Nếu vẫn còn thì cập nhật lại
+                favourite.spotId = updatedSpotIds;
+                await favourite.save();
+                return res.status(200).json({
+                    message: "Đã xoá địa điểm khỏi mục yêu thích.",
+                    data: favourite
+                });
+            }
+
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    },
+    
 };

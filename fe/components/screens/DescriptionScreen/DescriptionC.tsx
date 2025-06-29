@@ -11,32 +11,77 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-import ReviewDetailScreen from '../ReviewDetails/ReviewDetailScreen';
 import { useDispatch } from 'react-redux';
+
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { fetchSpots } from '../../../store/slices/spotSlice';
+
 import LocationScreenButton from '../Location/MapScreen.web';
+import ReviewDetailScreen from '../ReviewDetails/ReviewDetailScreen';
+import { addToFavourite, deleteFavourite, fetchFavouritesByUser } from '../../../store/slices/favouriteSlice';
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function SpotDetailScreen() {
     const route = useRoute();
-    const { spotId } = route.params;
+    const { spotId, userId } = route.params;
     const dispatch = useDispatch();
-    const { spots, loading, error } = useAppSelector((state) => state.spots);
+
+    const { spots, loading: spotsLoading } = useAppSelector((state) => state.spots);
+    const { userFavourite, loading: favLoading } = useAppSelector(
+        (state) => state.favourites
+    );
+
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     useEffect(() => {
         dispatch(fetchSpots());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (userId) {
+            dispatch(fetchFavouritesByUser(userId));
+        }
+    }, [dispatch, userId]);
+
     const selectedSpot = spots.find((s) => s._id === spotId);
 
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const isFavourite = userFavourite?.spotId?.includes(selectedSpot?._id);
 
     if (!selectedSpot) return null;
 
     return (
         <ScrollView style={styles.container}>
-            <Text style={styles.title}>{selectedSpot.name}</Text>
+            <View style={styles.titleRow}>
+                <Text style={styles.title}>{selectedSpot.name}</Text>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (favLoading) return;
+                        if (isFavourite) {
+                            dispatch(
+                                deleteFavourite({
+                                    userId: userFavourite.userId,
+                                    spotId: selectedSpot._id,
+                                })
+                            );
+                        } else {
+                            dispatch(
+                                addToFavourite({
+                                    userId: userFavourite.userId,
+                                    spotId: selectedSpot._id,
+                                })
+                            );
+                        }
+                    }}
+                >
+                    <Ionicons
+                        name="bookmark"
+                        size={28}
+                        color={isFavourite ? '#FFD700' : '#999'}
+                        style={{ marginLeft: 12 }}
+                    />
+                </TouchableOpacity>
+            </View>
 
             <Image
                 source={{ uri: selectedSpot.imageUrl[selectedIndex] }}
@@ -62,6 +107,7 @@ export default function SpotDetailScreen() {
                     </TouchableOpacity>
                 )}
             />
+
             <LocationScreenButton
                 lat={selectedSpot.location.lat}
                 lng={selectedSpot.location.lng}
@@ -95,10 +141,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         flex: 1,
     },
+    titleRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
     title: {
         fontSize: 22,
         fontWeight: 'bold',
         color: '#333',
+        flex: 1,
     },
     mainImage: {
         width: screenWidth * 0.92,

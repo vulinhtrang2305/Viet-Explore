@@ -45,6 +45,26 @@ export const addToFavourite = createAsyncThunk(
   }
 );
 
+// Delete spot from favourite
+export const deleteFavourite = createAsyncThunk(
+  "favourites/deleteFavourite",
+  async (
+    { userId, spotId }: { userId: string; spotId: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.delete(`${API_URL}/${userId}/${spotId}`);
+      return {
+        userId,
+        spotId,
+        message: response.data.message,
+      };
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 const favouriteSlice = createSlice({
   name: "favourites",
   initialState: {
@@ -119,6 +139,48 @@ const favouriteSlice = createSlice({
         }
       })
       .addCase(addToFavourite.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Delete spot from favourite
+      .addCase(deleteFavourite.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteFavourite.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload.message;
+
+        const { spotId } = action.payload;
+
+        // Cập nhật userFavourite
+        if (state.userFavourite) {
+          state.userFavourite.spotId = state.userFavourite.spotId.filter(
+            (id) => id !== spotId
+          );
+
+          // Nếu sau khi xoá mà mảng rỗng thì xoá luôn object
+          if (state.userFavourite.spotId.length === 0) {
+            state.userFavourite = null;
+          }
+        }
+
+        // Nếu có quản lý list favourites toàn cục
+        state.favourites = state.favourites
+          .map((fav) => {
+            if (fav.userId === action.payload.userId) {
+              const updatedSpotIds = fav.spotId.filter((id) => id !== spotId);
+              if (updatedSpotIds.length === 0) {
+                return null; // Hoặc filter ra ngoài
+              }
+              return { ...fav, spotId: updatedSpotIds };
+            }
+            return fav;
+          })
+          .filter(Boolean); // Xoá null nếu xoá hẳn bản ghi
+      })
+      .addCase(deleteFavourite.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
