@@ -18,6 +18,7 @@ import UserProfile from "./components/screens/Profile/UserProfile";
 import Login from "../fe/auth/LoginForm/Login"
 import RegisterScreen from "./auth/RegisterForm/Register";
 import ProfileDetail from "./auth/UserProfile/ProfileDetail";
+import FavouriteList from "./components/screens/FavouriteList/Favourite";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -111,6 +112,11 @@ export default function App() {
             name="UserProfileDetail"
             component={ProfileDetail}
             options={{ title: "Chỉnh sửa thông tin cá nhân" }}
+          />
+          <Stack.Screen
+            name="favouriteScreen"
+            component={FavouriteList}
+            options={{ title: "Danh sách các địa điểm yêu thích" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

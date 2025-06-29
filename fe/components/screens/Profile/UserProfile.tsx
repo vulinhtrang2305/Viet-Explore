@@ -8,7 +8,7 @@ const UserProfile = () => {
         { icon: 'list', label: 'Thông tin chi tiết', component: 'UserProfileDetail' },
         { icon: 'megaphone', label: 'Khuyến mãi', component: 'PromotionsScreen' },
         { icon: 'camera', label: 'Thêm hình ảnh', component: 'AddImageScreen' },
-        { icon: 'bookmark', label: 'Ưa thích', component: 'FavoritesScreen' },
+        { icon: 'bookmark', label: 'Ưa thích', component: 'favouriteScreen' },
         { icon: 'star', label: 'Đánh giá TripHunter', component: 'RateAppScreen' },
         { icon: 'person-add', label: 'Tìm bạn bè', component: 'FindFriendsScreen' },
         { icon: 'settings', label: 'Cài đặt', component: 'SettingsScreen' },
