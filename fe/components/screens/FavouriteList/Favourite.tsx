@@ -38,7 +38,6 @@ const FavouriteList = () => {
             />
             <View>
                 <Text style={styles.title}>{item.name}</Text>
-                <Text style={styles.description}>{item.description}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -109,12 +108,6 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: '600',
         fontSize: 16,
-    },
-    description: {
-        color: '#666',
-        fontSize: 13,
-        marginTop: 4,
-        maxWidth: 230,
     },
     center: {
         flex: 1,
