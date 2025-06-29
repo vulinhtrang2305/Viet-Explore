@@ -75,8 +75,6 @@ export default function ProfileDetail() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.header}>Edit Profile</Text>
-
             <View style={styles.avatarContainer}>
                 <Image
                     source={require('../../assets/Sample_User_Icon.png')}
@@ -134,11 +132,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
         backgroundColor: '#fff',
-    },
-    header: {
-        fontSize: 22,
-        fontWeight: '600',
-        marginBottom: 10,
     },
     avatarContainer: {
         alignItems: 'center',
