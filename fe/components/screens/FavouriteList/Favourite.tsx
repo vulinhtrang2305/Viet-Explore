@@ -10,30 +10,34 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store';
-import { fetchFavourites } from '../../../store/slices/favouriteSlice';
+import { fetchFavouritesByUser } from '../../../store/slices/favouriteSlice';
 import { fetchSpots } from '../../../store/slices/spotSlice';
 
 const FavouriteList = () => {
     const dispatch = useDispatch();
-    const { favourites, loading, error } = useSelector((state: RootState) => state.favourites);
+    const { userFavourite, loading, error } = useSelector((state: RootState) => state.favourites);
     const { spots } = useSelector((state: RootState) => state.spots);
     const userId = useSelector((state: RootState) => state.users.userInfo?._id);
 
     useEffect(() => {
-        dispatch(fetchFavourites());
-        dispatch(fetchSpots()); 
-    }, [dispatch]);
+        if (userId) {
+            dispatch(fetchFavouritesByUser(userId));
+        }
+        dispatch(fetchSpots());
+    }, [dispatch, userId]);
 
-    const userFavourite = favourites.find(fav => fav.userId === userId);
     const filteredSpots = userFavourite
-        ? spots.filter(spot => userFavourite.spotId.includes(spot._id))
+        ? spots.filter((spot) => userFavourite.spotId.includes(spot._id?.toString()))
         : [];
 
     const renderItem = ({ item }) => (
         <TouchableOpacity style={styles.card}>
-            <Image source={{ uri: item.image }} style={styles.image} />
+            <Image
+                source={{ uri: item.imageUrl?.[0] }}
+                style={styles.image}
+            />
             <View>
-                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.title}>{item.name}</Text>
                 <Text numberOfLines={2} style={styles.description}>{item.description}</Text>
             </View>
         </TouchableOpacity>
@@ -60,8 +64,15 @@ const FavouriteList = () => {
             <Text style={styles.header}>Địa điểm yêu thích</Text>
             <FlatList
                 data={filteredSpots}
-                keyExtractor={item => item._id}
+                keyExtractor={(item) => item._id}
                 renderItem={renderItem}
+                ListEmptyComponent={
+                    <View style={styles.center}>
+                        <Text style={styles.emptyText}>
+                            Chưa có địa điểm nào trong mục yêu thích.
+                        </Text>
+                    </View>
+                }
                 contentContainerStyle={{ paddingBottom: 100 }}
             />
         </View>
@@ -91,8 +102,8 @@ const styles = StyleSheet.create({
         gap: 12,
     },
     image: {
-        width: 90,
-        height: 70,
+        width: 100,
+        height: 100,
         borderRadius: 8,
     },
     title: {
@@ -112,5 +123,11 @@ const styles = StyleSheet.create({
     },
     error: {
         color: 'red',
+    },
+    emptyText: {
+        textAlign: 'center',
+        marginTop: 50,
+        color: '#666',
+        fontSize: 15,
     },
 });
