@@ -14,6 +14,22 @@ module.exports = {
         }
     },
 
+    getFavouriteByUser: async (req, res) => {
+        const { userId } = req.params;
+
+        try {
+            const fav = await Favourite.findOne({ userId });
+
+            if (!fav) {
+                return res.status(200).json({ message: "Không có địa điểm yêu thích", data: null });
+            }
+
+            return res.status(200).json({ message: "Lấy dữ liệu thành công", data: fav });
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    },
+
     addToFavouriteL: async (req, res) => {
         // const { userId, spotId } = req.body;
 

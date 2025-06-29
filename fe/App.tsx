@@ -116,7 +116,7 @@ export default function App() {
           <Stack.Screen
             name="favouriteScreen"
             component={FavouriteList}
-            options={{ title: "Danh sách các địa điểm yêu thích" }}
+            options={{ title: "Danh sách các địa điểm yêu" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
