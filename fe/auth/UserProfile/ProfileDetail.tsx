@@ -10,7 +10,7 @@ import {
     ToastAndroid,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile, updateUser } from '../../store/slices/userSlice';
+import { getProfile, logoutUser, updateUser } from '../../store/slices/userSlice';
 import { useNavigation } from '@react-navigation/native';
 
 export default function ProfileDetail() {
@@ -34,6 +34,12 @@ export default function ProfileDetail() {
 
     useEffect(() => {
         if (!userInfo) {
+            const token = localStorage.getItem("token"); 
+            if (!token) {
+                navigation.replace("login"); 
+                return;
+            }
+
             dispatch(getProfile());
         } else {
             setName(userInfo?.username || '');
@@ -67,10 +73,29 @@ export default function ProfileDetail() {
         }
     };
 
+
+
+    const handleLogout = async () => {
+        try {
+            await dispatch(logoutUser()).unwrap();
+
+            localStorage.removeItem("token");
+
+            // Nếu dùng AsyncStorage (native)
+            // await AsyncStorage.removeItem("token");
+
+            ToastAndroid.show("Đăng xuất thành công", ToastAndroid.SHORT);
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "login" }],
+            });
+        } catch (err) {
+            ToastAndroid.show("Lỗi khi đăng xuất", ToastAndroid.LONG);
+        }
+    };
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.header}>Edit Profile</Text>
-
             <View style={styles.avatarContainer}>
                 <Image
                     source={require('../../assets/Sample_User_Icon.png')}
@@ -119,6 +144,10 @@ export default function ProfileDetail() {
                     {loading ? 'Đang cập nhật...' : 'Update'}
                 </Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                <Text style={styles.logoutText}>Logout</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 }
@@ -128,11 +157,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
         backgroundColor: '#fff',
-    },
-    header: {
-        fontSize: 22,
-        fontWeight: '600',
-        marginBottom: 10,
     },
     avatarContainer: {
         alignItems: 'center',
@@ -167,6 +191,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     updateText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    logoutButton: {
+        marginTop: 10,
+        width: '100%',
+        paddingVertical: 14,
+        borderRadius: 25,
+        backgroundColor: '#ff3b30',
+        alignItems: 'center',
+    },
+    logoutText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: '600',
