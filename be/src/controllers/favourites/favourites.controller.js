@@ -12,5 +12,35 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
+    },
+
+    addToFavouriteL: async (req, res) => {
+        const { userId, spotId } = req.body;
+
+        try {
+            const favourite = await Favourite.findOne({ userId });
+
+            if (!favourite) {
+                // Nếu chưa có bản ghi nào cho user này thì tạo mới
+                favourite = new Favourite({
+                    userId,
+                    spotId: [spotId],
+                });
+            } else {
+                // Nếu đã có thì thêm spotId mới vào (tránh trùng lặp)
+                if (!favourite.spotId.includes(spotId)) {
+                    favourite.spotId.push(spotId);
+                }
+            }
+
+            await favourite.save();
+
+            return res.status(200).json({
+                message: "Đã thêm vào mục ưa thích",
+                data: favourite,
+            });
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
     }
 };
