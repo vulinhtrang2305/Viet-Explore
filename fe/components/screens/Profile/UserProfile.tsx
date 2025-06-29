@@ -19,7 +19,7 @@ const UserProfile = () => {
         { icon: 'megaphone', label: 'Khuyến mãi', component: 'PromotionsScreen', color: '#FF8C00' },
         { icon: 'camera', label: 'Thêm hình ảnh', component: 'AddImageScreen', color: '#6A5ACD' },
         { icon: 'bookmark', label: 'Ưa thích', component: 'favouriteScreen', color: '#FF1493' },
-        { icon: 'star', label: 'Đánh giá TripHunter', component: 'RateAppScreen', color: '#FFD700' },
+        { icon: 'star', label: 'Đánh giá Viet Travel', component: 'RateAppScreen', color: '#FFD700' },
         { icon: 'person-add', label: 'Tìm bạn bè', component: 'FindFriendsScreen', color: '#32CD32' },
         { icon: 'settings', label: 'Cài đặt', component: 'SettingsScreen', color: '#FF4500' },
     ];
