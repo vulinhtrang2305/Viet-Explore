@@ -8,13 +8,15 @@ import {
     TouchableOpacity,
     Image,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { fetchSpots } from "../../../store/slices/spotSlice";
+import { RootState } from "../../../store";
 
 const LocationScroll = (props: any) => {
     const dispatch = useDispatch();
     const { spots, loading, error } = useAppSelector((state) => state.spots);
+    const userId = useSelector((state: RootState) => state.users.userInfo?._id);
 
     useEffect(() => {
         dispatch(fetchSpots());
@@ -42,6 +44,7 @@ const LocationScroll = (props: any) => {
                             onPress={() =>
                                 navigation.navigate("description", {
                                     spotId: item._id,
+                                    userId: userId, 
                                 })
                             }
                         >
