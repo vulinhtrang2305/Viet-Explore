@@ -12,9 +12,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store';
 import { fetchFavouritesByUser } from '../../../store/slices/favouriteSlice';
 import { fetchSpots } from '../../../store/slices/spotSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const FavouriteList = () => {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const { userFavourite, loading, error } = useSelector((state: RootState) => state.favourites);
     const { spots } = useSelector((state: RootState) => state.spots);
     const userId = useSelector((state: RootState) => state.users.userInfo?._id);
@@ -31,14 +33,17 @@ const FavouriteList = () => {
         : [];
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={() =>
+            navigation.navigate("description", {
+                spotId: item._id,
+            })
+        }>
             <Image
                 source={{ uri: item.imageUrl?.[0] }}
                 style={styles.image}
             />
             <View>
                 <Text style={styles.title}>{item.name}</Text>
-                <Text style={styles.description}>{item.description}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -109,12 +114,6 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: '600',
         fontSize: 16,
-    },
-    description: {
-        color: '#666',
-        fontSize: 13,
-        marginTop: 4,
-        maxWidth: 230,
     },
     center: {
         flex: 1,
