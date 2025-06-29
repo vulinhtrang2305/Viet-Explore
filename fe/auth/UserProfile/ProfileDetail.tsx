@@ -34,6 +34,12 @@ export default function ProfileDetail() {
 
     useEffect(() => {
         if (!userInfo) {
+            const token = localStorage.getItem("token"); 
+            if (!token) {
+                navigation.replace("login"); 
+                return;
+            }
+
             dispatch(getProfile());
         } else {
             setName(userInfo?.username || '');
