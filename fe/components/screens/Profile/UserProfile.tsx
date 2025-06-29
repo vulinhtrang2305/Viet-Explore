@@ -4,16 +4,26 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const UserProfile = () => {
-    const menuItems = [
-        { icon: 'list', label: 'Thông tin chi tiết', component: 'UserProfileDetail' },
-        { icon: 'megaphone', label: 'Khuyến mãi', component: 'PromotionsScreen' },
-        { icon: 'camera', label: 'Thêm hình ảnh', component: 'AddImageScreen' },
-        { icon: 'bookmark', label: 'Ưa thích', component: 'favouriteScreen' },
-        { icon: 'star', label: 'Đánh giá TripHunter', component: 'RateAppScreen' },
-        { icon: 'person-add', label: 'Tìm bạn bè', component: 'FindFriendsScreen' },
-        { icon: 'settings', label: 'Cài đặt', component: 'SettingsScreen' },
-    ];
+    // const menuItems = [
+    //     { icon: 'list', label: 'Thông tin chi tiết', component: 'UserProfileDetail' },
+    //     { icon: 'megaphone', label: 'Khuyến mãi', component: 'PromotionsScreen' },
+    //     { icon: 'camera', label: 'Thêm hình ảnh', component: 'AddImageScreen' },
+    //     { icon: 'bookmark', label: 'Ưa thích', component: 'favouriteScreen' },
+    //     { icon: 'star', label: 'Đánh giá TripHunter', component: 'RateAppScreen' },
+    //     { icon: 'person-add', label: 'Tìm bạn bè', component: 'FindFriendsScreen' },
+    //     { icon: 'settings', label: 'Cài đặt', component: 'SettingsScreen' },
+    // ];
 
+    const menuItems = [
+        { icon: 'list', label: 'Thông tin chi tiết', component: 'UserProfileDetail', color: '#00C2FF' },
+        { icon: 'megaphone', label: 'Khuyến mãi', component: 'PromotionsScreen', color: '#FF8C00' },
+        { icon: 'camera', label: 'Thêm hình ảnh', component: 'AddImageScreen', color: '#6A5ACD' },
+        { icon: 'bookmark', label: 'Ưa thích', component: 'favouriteScreen', color: '#FF1493' },
+        { icon: 'star', label: 'Đánh giá TripHunter', component: 'RateAppScreen', color: '#FFD700' },
+        { icon: 'person-add', label: 'Tìm bạn bè', component: 'FindFriendsScreen', color: '#32CD32' },
+        { icon: 'settings', label: 'Cài đặt', component: 'SettingsScreen', color: '#FF4500' },
+    ];
+      
     const navigation = useNavigation();
 
     return (
@@ -35,7 +45,7 @@ const UserProfile = () => {
                         key={index}
                         onPress={() => item.component && navigation.navigate(item.component)}
                     >
-                        <Ionicons name={item.icon} size={22} color="#444" style={styles.icon} />
+                        <Ionicons name={item.icon} size={22} color={item.color} style={styles.icon} />
                         <Text style={styles.menuText}>{item.label}</Text>
                     </TouchableOpacity>
                 ))}
