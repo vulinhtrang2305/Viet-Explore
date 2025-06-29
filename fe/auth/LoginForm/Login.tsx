@@ -16,7 +16,7 @@ import { loginUser, resetError } from '../../store/slices/userSlice';
 export default function SignInScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    
     const dispatch = useDispatch();
     const navigation = useNavigation();
 

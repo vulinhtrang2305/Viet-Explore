@@ -4,6 +4,7 @@ import categoriesReducer from './slices/categorySlice';
 import reviewsReducer from './slices/reviewSlice';
 import usersReducer from './slices/userSlice';
 import suggestsReducer from './slices/suggestSlice';
+import favouritesReducer from './slices/favouriteSlice';
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         reviews: reviewsReducer,
         users: usersReducer,
         suggests: suggestsReducer,
+        favourites: favouritesReducer,
     }
 });
 
