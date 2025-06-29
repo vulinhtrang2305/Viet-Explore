@@ -38,7 +38,7 @@ const FavouriteList = () => {
             />
             <View>
                 <Text style={styles.title}>{item.name}</Text>
-                <Text numberOfLines={2} style={styles.description}>{item.description}</Text>
+                <Text style={styles.description}>{item.description}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
         gap: 12,
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 200,
+        height: 200,
         borderRadius: 8,
     },
     title: {
