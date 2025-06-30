@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingVertical: 14,
         borderRadius: 25,
-        backgroundColor: '#00c6ff',
+        backgroundColor: '#18C0C0',
         alignItems: 'center',
     },
     updateText: {
