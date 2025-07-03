@@ -57,6 +57,27 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
+    },
+
+    deleteSuggest: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            if (!id) {
+                return res.status(400).json({ message: "Missing suggest ID." });
+            }
+
+            const deleted = await Suggest.findByIdAndDelete(id);
+
+            if (!deleted) {
+                return res.status(404).json({ message: "Suggest not found." });
+            }
+
+            return res.json({ message: "Suggest deleted successfully!", data: deleted });
+
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
     }
 
 };
