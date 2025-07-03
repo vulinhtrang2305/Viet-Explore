@@ -18,7 +18,7 @@ module.exports = {
         try {
             const { userId, spotId, rating, comment, imageUrl } = req.body;
 
-            if (!userId, !spotId, !rating, !comment, !imageUrl) {
+            if (!userId || !spotId || !rating || !comment || !imageUrl) {
                 return res.status(500).json({ message: error.message });
             }
             const newreview = new Province({ userId, spotId, rating, comment, imageUrl });
@@ -27,6 +27,34 @@ module.exports = {
 
         } catch (error) {
             return res.json({ message: error.message })
+        }
+    },
+
+    updateReview: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { userId, spotId, rating, comment, imageUrl } = req.body;
+
+            // Kiểm tra đầu vào
+            if (!userId || !spotId || !rating || !comment || !imageUrl) {
+                return res.status(400).json({ message: "Missing required fields: name, region, regionCode." });
+            }
+
+            // Tìm và cập nhật review
+            const updated = await Review.findByIdAndUpdate(
+                id,
+                { userId, spotId, rating, comment, imageUrl },
+                { new: true }
+            );
+
+            if (!updated) {
+                return res.status(404).json({ message: "Province not found." });
+            }
+
+            return res.json({ message: "Province updated successfully!", data: updated });
+
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
         }
     }
 };

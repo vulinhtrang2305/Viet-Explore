@@ -29,5 +29,34 @@ module.exports = {
         } catch (error) {
             return res.json({ message: error.message })
         }
+    },
+
+    updateCategory: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { name } = req.body;
+
+            // Kiểm tra đầu vào
+            if (!name || !id) {
+                return res.status(400).json({ message: "Missing required fields: 'id' or 'name'." });
+            }
+
+            // Tìm và cập nhật category
+            const updated = await Category.findByIdAndUpdate(
+                id,
+                { name },
+                { new: true } // Trả về document sau khi update
+            );
+
+            if (!updated) {
+                return res.status(404).json({ message: "Category not found." });
+            }
+
+            return res.json({ message: "Category updated successfully!", data: updated });
+
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
     }
+
 };

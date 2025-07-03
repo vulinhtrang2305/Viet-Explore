@@ -4,5 +4,6 @@ const suggestController = require("../../controllers/suggests/suggests.controlle
 
 router.get("/suggests", suggestController.getAllSuggest)
 router.post("/suggests/create", suggestController.createSuggest)
+router.put("/suggests/update/:id", suggestController.updateSuggest)
 
 module.exports = router;
