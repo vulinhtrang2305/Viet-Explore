@@ -19,7 +19,7 @@ module.exports = {
         try {
             const { name, provinceId, region, type, imageUrl, description, location, isFavorite, regionGroup, regionCode, categoryId } = req.body;
 
-            if (!name, !provinceId, !region, !type, !imageUrl, !description, !location, !isFavorite, !regionGroup, !regionCode, !categoryId) {
+            if (!name || !provinceId || !region || !type || !imageUrl || !description || !location || !isFavorite || !regionGroup || !regionCode || !categoryId) {
                 return res.status(500).json({ message: error.message });
             }
             const newSpot = new Spot({ name, provinceId, region, type, imageUrl, description, location, isFavorite, regionGroup, regionCode, categoryId });

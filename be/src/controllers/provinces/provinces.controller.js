@@ -18,7 +18,7 @@ module.exports = {
         try {
             const { name, region, regionCode } = req.body;
 
-            if (!name, !region, !regionCode) {
+            if (!name|| !region|| !regionCode) {
                 return res.status(500).json({ message: error.message });
             }
             const newProvince = new Province({ name, region, regionCode });

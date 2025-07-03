@@ -18,7 +18,7 @@ module.exports = {
         try {
             const { userId, spotId, rating, comment, imageUrl } = req.body;
 
-            if (!userId, !spotId, !rating, !comment, !imageUrl) {
+            if (!userId || !spotId || !rating || !comment || !imageUrl) {
                 return res.status(500).json({ message: error.message });
             }
             const newreview = new Province({ userId, spotId, rating, comment, imageUrl });
@@ -36,7 +36,7 @@ module.exports = {
             const { userId, spotId, rating, comment, imageUrl } = req.body;
 
             // Kiểm tra đầu vào
-            if (!userId|| !spotId|| !rating|| !comment|| !imageUrl) {
+            if (!userId || !spotId || !rating || !comment || !imageUrl) {
                 return res.status(400).json({ message: "Missing required fields: name, region, regionCode." });
             }
 

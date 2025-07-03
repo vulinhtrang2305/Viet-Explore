@@ -19,7 +19,7 @@ module.exports = {
         try {
             const { title, description, imageUrl, spotId } = req.body;
 
-            if (!title, !description, !imageUrl, !spotId) {
+            if (!title || !description || !imageUrl || !spotId) {
                 return res.status(500).json({ message: error.message });
             }
             const newSuggest = new Suggest({ title, description, imageUrl, spotId });
