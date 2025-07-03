@@ -12,5 +12,21 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
+    },
+
+    createProvince: async (req, res) => {
+        try {
+            const { name, region, regionCode } = req.body;
+
+            if (!name, !region, !regionCode) {
+                return res.status(500).json({ message: error.message });
+            }
+            const newProvince = new Province({ name, region, regionCode });
+            const savePro = await newProvince.save();
+            return res.json(savePro)
+
+        } catch (error) {
+            return res.json({ message: error.message })
+        }
     }
 };
