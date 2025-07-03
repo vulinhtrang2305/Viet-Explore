@@ -56,5 +56,26 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
+    },
+    
+    deleteReview: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            if (!id) {
+                return res.status(400).json({ message: "Missing review ID." });
+            }
+
+            const deleted = await Review.findByIdAndDelete(id);
+
+            if (!deleted) {
+                return res.status(404).json({ message: "Review not found." });
+            }
+
+            return res.json({ message: "Review deleted successfully!", data: deleted });
+
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
     }
 };
