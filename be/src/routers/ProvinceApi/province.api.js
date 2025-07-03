@@ -5,5 +5,6 @@ const ProvinceController = require("../../controllers/provinces/provinces.contro
 router.get("/provinces", ProvinceController.getAllProvince)
 router.post("/provinces/create", ProvinceController.createProvince)
 router.put("/provinces/update/:id", ProvinceController.updateProvince)
+router.delete("/provinces/delete/:id", ProvinceController.deleteProvince)
 
 module.exports = router;

@@ -18,7 +18,7 @@ module.exports = {
         try {
             const { name, region, regionCode } = req.body;
 
-            if (!name|| !region|| !regionCode) {
+            if (!name || !region || !regionCode) {
                 return res.status(500).json({ message: error.message });
             }
             const newProvince = new Province({ name, region, regionCode });
@@ -56,6 +56,26 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
+    },
+
+    deleteProvince: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            if (!id) {
+                return res.status(400).json({ message: "Missing province ID." });
+            }
+
+            const deleted = await Province.findByIdAndDelete(id);
+
+            if (!deleted) {
+                return res.status(404).json({ message: "Province not found." });
+            }
+
+            return res.json({ message: "Province deleted successfully!", data: deleted });
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
     }
-    
+
 };
