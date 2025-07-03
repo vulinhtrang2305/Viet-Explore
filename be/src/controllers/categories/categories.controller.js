@@ -57,6 +57,29 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
+    },
+
+    deleteCategory: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            // Kiểm tra xem ID có được truyền không
+            if (!id) {
+                return res.status(400).json({ message: "Missing category ID." });
+            }
+
+            // Tìm và xóa category
+            const deleted = await Category.findByIdAndDelete(id);
+
+            if (!deleted) {
+                return res.status(404).json({ message: "Category not found." });
+            }
+
+            return res.json({ message: "Category deleted successfully!", data: deleted });
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
     }
+
 
 };
