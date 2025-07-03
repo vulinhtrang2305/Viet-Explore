@@ -57,5 +57,26 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
+    },
+
+    deleteSpot: async (req, res) => {
+        try {
+            const { id } = req.params;
+
+            if (!id) {
+                return res.status(400).json({ message: "Missing spot ID." });
+            }
+
+            const deleted = await Spot.findByIdAndDelete(id);
+
+            if (!deleted) {
+                return res.status(404).json({ message: "Spot not found." });
+            }
+
+            return res.json({ message: "Spot deleted successfully!", data: deleted });
+
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
     }
 };
