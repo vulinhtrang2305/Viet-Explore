@@ -20,7 +20,7 @@ module.exports = {
 
     updateUser: async (req, res) => {
         try {
-            const userId = req.user.id;
+            const userId = req.params.id;
             const { username, email, phone, address, dob } = req.body;
 
             const user = await User.findById(userId);
@@ -46,7 +46,7 @@ module.exports = {
             return res.status(500).json({ message: error.message });
         }
     },
-
+    
     register: async (req, res) => {
         try {
             const { username, email, password } = req.body;
