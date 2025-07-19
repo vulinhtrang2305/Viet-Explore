@@ -19,9 +19,27 @@ module.exports = {
         try {
             const { name, provinceId, region, type, imageUrl, description, location, isFavorite, regionGroup, regionCode, categoryId } = req.body;
 
-            if (!name || !provinceId || !region || !type || !imageUrl || !description || !location || !isFavorite || !regionGroup || !regionCode || !categoryId) {
-                return res.status(500).json({ message: error.message });
+            // if (!name || !provinceId || !region || !type || !Array.isArray(imageUrl) || imageUrl.length === 0 || !description || !location || !isFavorite || !regionGroup || !regionCode || !categoryId) {
+            //     return res.status(500).json({ message: error.message });
+            // }
+            if (
+                !name ||
+                !provinceId ||
+                !region ||
+                !type ||
+                !Array.isArray(imageUrl) ||
+                typeof description !== 'string' ||
+                typeof location !== 'object' ||
+                typeof location.lat !== 'number' ||
+                typeof location.lng !== 'number' ||
+                typeof isFavorite !== 'boolean' ||
+                !regionGroup ||
+                !regionCode ||
+                !categoryId
+            ) {
+                return res.status(400).json({ message: "Missing or invalid required fields." });
             }
+            
             const newSpot = new Spot({ name, provinceId, region, type, imageUrl, description, location, isFavorite, regionGroup, regionCode, categoryId });
             const savePro = await newSpot.save();
             return res.json(savePro)
