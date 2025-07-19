@@ -13,7 +13,9 @@ const spotSchema = new mongoose.Schema({
         ref: "Province"
     },
     region: {
-        enum: ["Bắc", "Trung", "Nam"]
+        type: String,
+        enum: ["Bắc", "Trung", "Nam"],
+        required: true,
     },
     type: String,
     imageUrl: [String],
@@ -28,9 +30,11 @@ const spotSchema = new mongoose.Schema({
             required: true
         }
     },
-    isFavorite: String,
+    isFavorite: Boolean,
     regionGroup: {
-        enum: ["mien-bac", "mien-trung", "mien-nam"]
+        type: String,
+        enum: ["mien-bac", "mien-trung", "mien-nam"],
+        required: true,
     },
     regionCode: String,
     categoryId: {
