@@ -156,4 +156,20 @@ module.exports = {
             });
         }
     },
+
+    deleteUser: async (req, res) => {
+        try {
+            const userId = req.params.id;
+            const deletedUser = await User.findByIdAndDelete(userId);
+
+            if (!deletedUser) {
+                return res.status(404).json({ message: "Không tìm thấy người dùng." });
+            }
+
+            return res.status(200).json({ message: "Xóa người dùng thành công." });
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+    
 };
