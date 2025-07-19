@@ -13,13 +13,14 @@ const ProvinceRouter = require("./src/routers/ProvinceApi/province.api")
 const ReviewRouter = require("./src/routers/ReviewApi/review.api")
 const SuggestRouter = require("./src/routers/SuggestApi/suggest.api")
 const UserRouter = require("./src/routers/userApi/user.api")
+const Upload = require("./upload")
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // router
-app.use("/", spotRouter, CategoryRouter, FavouriteRouter, ProvinceRouter, ReviewRouter, SuggestRouter, UserRouter)
+app.use("/", spotRouter, CategoryRouter, FavouriteRouter, ProvinceRouter, ReviewRouter, SuggestRouter, UserRouter, Upload)
 
 connectDb();
 const PORT = process.env.PORT || 9999;
