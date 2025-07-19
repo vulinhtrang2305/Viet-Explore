@@ -15,18 +15,39 @@ module.exports = {
     },
 
     createReview: async (req, res) => {
+        // try {
+        //     const { userId, spotId, rating, comment, imageUrl } = req.body;
+
+        //     if (!userId || !spotId || !rating || !comment || !imageUrl) {
+        //         return res.status(500).json({ message: error.message });
+        //     }
+        //     const newreview = new Province({ userId, spotId, rating, comment, imageUrl });
+        //     const savePro = await newreview.save();
+        //     return res.json(savePro)
+
+        // } catch (error) {
+        //     return res.json({ message: error.message })
+        // }
         try {
             const { userId, spotId, rating, comment, imageUrl } = req.body;
 
-            if (!userId || !spotId || !rating || !comment || !imageUrl) {
-                return res.status(500).json({ message: error.message });
+            if (!userId || !spotId || !rating) {
+                return res.status(400).json({ message: "Missing required fields" });
             }
-            const newreview = new Province({ userId, spotId, rating, comment, imageUrl });
-            const savePro = await newreview.save();
-            return res.json(savePro)
+
+            const newReview = new Review({
+                userId,
+                spotId,
+                rating,
+                comment,
+                imageUrl: Array.isArray(imageUrl) ? imageUrl : [imageUrl] // fallback
+            });
+
+            const saved = await newReview.save();
+            return res.status(201).json(saved);
 
         } catch (error) {
-            return res.json({ message: error.message })
+            return res.status(500).json({ message: error.message });
         }
     },
 
