@@ -19,9 +19,6 @@ module.exports = {
         try {
             const { name, provinceId, region, type, imageUrl, description, location, isFavorite, regionGroup, regionCode, categoryId } = req.body;
 
-            // if (!name || !provinceId || !region || !type || !Array.isArray(imageUrl) || imageUrl.length === 0 || !description || !location || !isFavorite || !regionGroup || !regionCode || !categoryId) {
-            //     return res.status(500).json({ message: error.message });
-            // }
             if (
                 !name ||
                 !provinceId ||
