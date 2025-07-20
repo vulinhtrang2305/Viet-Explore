@@ -27,41 +27,6 @@ const Tab = createBottomTabNavigator();
 
 function TabNavigator() {
   return (
-    // <Tab.Navigator
-    //   screenOptions={{
-    //     tabBarShowLabel: false,
-    //     tabBarStyle: styles.tabBarStyle,
-    //     headerShown: false,
-    //   }}
-    // >
-    //   <Tab.Screen
-    //     name="HomeTab"
-    //     component={MainHomeC}
-    //     options={{
-    //       tabBarIcon: ({ focused }) => (
-    //         <Ionicons
-    //           name="home"
-    //           size={24}
-    //           color={focused ? "#00C2FF" : "#fff"}
-    //         />
-    //       ),
-    //     }}
-    //   />
-    //   <Tab.Screen
-    //     name="UserTab"
-    //     component={UserProfile}
-    //     options={{
-    //       tabBarIcon: ({ focused }) => (
-    //         <Ionicons
-    //           name="person"
-    //           size={24}
-    //           color={focused ? "#00C2FF" : "#fff"}
-    //         />
-    //       ),
-    //     }}
-    //   />
-    // </Tab.Navigator>
-
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
