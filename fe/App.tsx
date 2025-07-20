@@ -1,3 +1,4 @@
+import "./utils/localStoragePatch";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -15,10 +16,11 @@ import DescriptionC from "./components/screens/DescriptionScreen/DescriptionC";
 import SuggestC from "./components/screens/SuggestLocation/SuggestC";
 import SuggestDetails from "./components/screens/SuggestLocation/SuggestDetail";
 import UserProfile from "./components/screens/Profile/UserProfile";
-import Login from "../fe/auth/LoginForm/Login"
+import Login from "./auth/LoginForm/Login";
 import RegisterScreen from "./auth/RegisterForm/Register";
 import ProfileDetail from "./auth/UserProfile/ProfileDetail";
 import FavouriteList from "./components/screens/FavouriteList/Favourite";
+import CreateReviewScreen from "./src/components/screens/home/CreateReviewScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,6 +32,11 @@ function TabNavigator() {
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBarStyle,
         headerShown: false,
+        tabBarItemStyle: {
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 10,
+        },
       }}
     >
       <Tab.Screen
@@ -39,7 +46,7 @@ function TabNavigator() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="home"
-              size={24}
+              size={28}
               color={focused ? "#00C2FF" : "#fff"}
             />
           ),
@@ -52,7 +59,7 @@ function TabNavigator() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="person"
-              size={24}
+              size={28}
               color={focused ? "#00C2FF" : "#fff"}
             />
           ),
@@ -118,6 +125,11 @@ export default function App() {
             component={FavouriteList}
             options={{ title: "Danh sách các địa điểm yêu" }}
           />
+          <Stack.Screen
+            name="createReview"
+            component={CreateReviewScreen}
+            options={{ title: "Viết đánh giá" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
       {/* </AppProvider> */}
@@ -129,8 +141,7 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     position: "absolute",
     bottom: 20,
-    left: 20,
-    right: 20,
+    marginHorizontal: 10,
     height: 70,
     backgroundColor: "#43556B",
     borderRadius: 20,
