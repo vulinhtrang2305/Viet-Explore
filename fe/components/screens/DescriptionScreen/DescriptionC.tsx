@@ -8,6 +8,7 @@ import {
     FlatList,
     Dimensions,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
@@ -15,28 +16,33 @@ import { useDispatch } from 'react-redux';
 
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { fetchSpots } from '../../../store/slices/spotSlice';
+import {
+    addToFavourite,
+    deleteFavourite,
+    fetchFavouritesByUser,
+} from '../../../store/slices/favouriteSlice';
 
 import LocationScreenButton from '../Location/MapScreen.web';
 import ReviewDetailScreen from '../ReviewDetails/ReviewDetailScreen';
-import { addToFavourite, deleteFavourite, fetchFavouritesByUser } from '../../../store/slices/favouriteSlice';
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function SpotDetailScreen() {
     const route = useRoute();
-    const { spotId, userId } = route.params;
-    const dispatch = useDispatch();
+    const { spotId } = route?.params || {};
 
+    const dispatch = useDispatch();
+    const userId = useAppSelector((state) => state.users?.userInfo?._id);
     const { spots, loading: spotsLoading } = useAppSelector((state) => state.spots);
-    const { userFavourite, loading: favLoading } = useAppSelector(
-        (state) => state.favourites
-    );
+    const { userFavourite, loading: favLoading } = useAppSelector((state) => state.favourites);
 
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     useEffect(() => {
-        dispatch(fetchSpots());
-    }, [dispatch]);
+        if (spotId) {
+            dispatch(fetchSpots());
+        }
+    }, [dispatch, spotId]);
 
     useEffect(() => {
         if (userId) {
@@ -45,42 +51,72 @@ export default function SpotDetailScreen() {
     }, [dispatch, userId]);
 
     const selectedSpot = spots.find((s) => s._id === spotId);
+    // const isFavourite = userFavourite?.spotId?.includes(selectedSpot?._id);
 
-    const isFavourite = userFavourite?.spotId?.includes(selectedSpot?._id);
 
-    if (!selectedSpot) return null;
+    const isFavourite =
+        userFavourite &&
+        Array.isArray(userFavourite.spotId) &&
+        userFavourite.spotId.includes(selectedSpot?._id);
+
+    const canToggleFavourite = !!userId;
+
+    if (!spotId) {
+        return (
+            <View style={styles.centered}>
+                <Text style={styles.warningText}>Không tìm thấy địa điểm cần hiển thị.</Text>
+            </View>
+        );
+    }
+
+    if (!selectedSpot) {
+        return (
+            <View style={styles.centered}>
+                <Text style={styles.loadingText}>Đang tải thông tin địa điểm...</Text>
+            </View>
+        );
+    }
+
+    const handleToggleFavourite = () => {
+        if (!canToggleFavourite) {
+            Alert.alert('Thông báo', 'Bạn cần đăng nhập để thêm vào yêu thích.');
+            return;
+        }
+
+        if (favLoading) return;
+
+        const name = selectedSpot.name;
+
+        if (isFavourite) {
+            dispatch(
+                deleteFavourite({ userId, spotId: selectedSpot._id })
+            );
+        } else {
+            dispatch(
+                addToFavourite({ userId, spotId: selectedSpot._id })
+            ).then(() => {
+                Alert.alert('Thành công', `Bạn đã thêm thành công "${name}" vào mục yêu thích`);
+            });
+        }
+    };
+    
 
     return (
         <ScrollView style={styles.container}>
             <View style={styles.titleRow}>
                 <Text style={styles.title}>{selectedSpot.name}</Text>
-                <TouchableOpacity
-                    onPress={() => {
-                        if (favLoading) return;
-                        if (isFavourite) {
-                            dispatch(
-                                deleteFavourite({
-                                    userId: userFavourite.userId,
-                                    spotId: selectedSpot._id,
-                                })
-                            );
-                        } else {
-                            dispatch(
-                                addToFavourite({
-                                    userId: userFavourite.userId,
-                                    spotId: selectedSpot._id,
-                                })
-                            );
-                        }
-                    }}
-                >
-                    <Ionicons
-                        name="bookmark"
-                        size={28}
-                        color={isFavourite ? '#FFD700' : '#999'}
-                        style={{ marginLeft: 12 }}
-                    />
-                </TouchableOpacity>
+
+                {typeof isFavourite !== 'undefined' && (
+                    <TouchableOpacity onPress={handleToggleFavourite}>
+                        <Ionicons
+                            name="bookmark"
+                            size={28}
+                            color={isFavourite ? '#FFD700' : '#999'}
+                            style={{ marginLeft: 12 }}
+                        />
+                    </TouchableOpacity>
+                )}
+
             </View>
 
             <Image
@@ -141,6 +177,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         flex: 1,
     },
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    warningText: {
+        fontSize: 16,
+        color: 'red',
+    },
+    loadingText: {
+        fontSize: 16,
+        color: '#666',
+    },
     titleRow: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -153,7 +202,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     mainImage: {
-        width: screenWidth * 0.92,
+        width: screenWidth ,
         height: screenWidth * 0.52,
         borderRadius: 16,
         marginTop: 14,

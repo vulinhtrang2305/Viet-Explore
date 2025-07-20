@@ -5,7 +5,8 @@ export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:9999/categories");
+      // const response = await axios.get("http://localhost:9999/categories");
+      const response = await axios.get("http://192.168.1.7:9999/categories");
       return response.data.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://localhost:9999/users";
+// const API_URL = "http://localhost:9999/users";
+const API_URL = "http://192.168.1.7:9999/users";
+
 
 // Fetch tất cả user (admin dùng)
 export const fetchUsers = createAsyncThunk(
@@ -35,10 +38,23 @@ export const loginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${API_URL}/login`, credentials);
-      localStorage.setItem("token", response.data.Token);
+      await AsyncStorage.setItem("token", response.data.Token);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+// Load token từ AsyncStorage
+export const loadToken = createAsyncThunk(
+  "users/loadToken",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      return token;
+    } catch (err) {
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -48,7 +64,7 @@ export const getProfile = createAsyncThunk(
   "users/profile",
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = await AsyncStorage.getItem("token");
       const response = await axios.get(`${API_URL}/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -66,7 +82,7 @@ export const updateUser = createAsyncThunk(
   "users/updateUser",
   async (updatedData, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = await AsyncStorage.getItem("token");
       const response = await axios.put(`${API_URL}/profile`, updatedData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -84,13 +100,13 @@ export const logoutUser = createAsyncThunk(
   "users/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = await AsyncStorage.getItem("token");
       const response = await axios.get(`${API_URL}/logout`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      localStorage.removeItem("token");
+      await AsyncStorage.removeItem("token");
       return response.data.message;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -104,7 +120,7 @@ const usersSlice = createSlice({
   initialState: {
     users: [],
     userInfo: null,
-    token: localStorage.getItem("token") || null,
+    token: null,
     loading: false,
     error: null,
     message: null,
@@ -119,6 +135,11 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Load token
+      .addCase(loadToken.fulfilled, (state, action) => {
+        state.token = action.payload;
+      })
+
       // Fetch all users
       .addCase(fetchUsers.pending, (state) => {
         state.loading = true;
@@ -147,6 +168,7 @@ const usersSlice = createSlice({
         state.error = action.payload;
       })
 
+      // Login
       // Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;

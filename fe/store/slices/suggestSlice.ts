@@ -5,7 +5,8 @@ export const fetchSuggests = createAsyncThunk(
   "suggests/fetchSuggests",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:9999/suggests");
+      // const response = await axios.get("http://localhost:9999/suggests");
+      const response = await axios.get("http://192.168.1.7:9999/suggests");
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.message);

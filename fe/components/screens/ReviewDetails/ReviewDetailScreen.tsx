@@ -6,8 +6,9 @@ import {
     FlatList,
     Image,
     Dimensions,
+    TouchableOpacity,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/useAppSelector';
@@ -18,6 +19,7 @@ import { fetchUsers } from '../../../store/slices/userSlice';
 const screenWidth = Dimensions.get('window').width;
 
 export default function ReviewDetailScreen() {
+    const navigation = useNavigation();
     const dispatch = useDispatch();
     const { spots } = useAppSelector((state) => state.spots);
     const { users } = useAppSelector((state) => state.users);
@@ -79,6 +81,15 @@ export default function ReviewDetailScreen() {
                 ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
                 contentContainerStyle={{ paddingVertical: 12 }}
             />
+
+            <View style={styles.footer}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => navigation.navigate('createReview', { spotId })}
+                >
+                    <Text style={styles.buttonText}>Viết đánh giá</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
@@ -135,8 +146,23 @@ const styles = StyleSheet.create({
     },
     reviewImage: {
         width: screenWidth * 0.6,
-        height: 500,
+        height: 150,
         borderRadius: 10,
         marginRight: 10,
+    },
+    footer: {
+        marginTop: 20,
+        alignItems: 'center',
+    },
+    button: {
+        backgroundColor: '#00c6ff',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: '600',
     },
 });

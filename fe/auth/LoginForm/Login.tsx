@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     StyleSheet,
     Image,
-    ToastAndroid
+    ToastAndroid,
+    ScrollView
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -45,68 +46,70 @@ export default function SignInScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            {/* <Text style={styles.title}>Sign In</Text> */}
+       <ScrollView>
+            <View style={styles.container}>
+                {/* <Text style={styles.title}>Sign In</Text> */}
 
-            <Image
-                source={require('../../assets/logo.svg')}
-                style={styles.logo}
-            />
-
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="#aaa"
-                keyboardType="email-address"
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-            />
-
-            <View style={styles.passwordRow}>
-                <TextInput
-                    style={styles.passwordInput}
-                    placeholder="Password"
-                    placeholderTextColor="#aaa"
-                    secureTextEntry
-                    value={password}
-                    onChangeText={setPassword}
+                <Image
+                    source={{ uri: "https://res.cloudinary.com/dd4qz2k1g/image/upload/v1752963063/Green_Minimal_Travel_Business_Logo_nnjajm.png" }}
+                    style={styles.logo}
                 />
-                <TouchableOpacity>
-                    <Text style={styles.forgot}>Forgot password</Text>
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    placeholderTextColor="#aaa"
+                    keyboardType="email-address"
+                    value={email}
+                    onChangeText={setEmail}
+                    autoCapitalize="none"
+                />
+
+                <View style={styles.passwordRow}>
+                    <TextInput
+                        style={styles.passwordInput}
+                        placeholder="Password"
+                        placeholderTextColor="#aaa"
+                        secureTextEntry
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+                    <TouchableOpacity>
+                        <Text style={styles.forgot}>Forgot password</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.plainButton} onPress={handleLogin}>
+                    <Text style={styles.buttonText}>
+                        {loading ? 'Signing in...' : 'SIGN IN'}
+                    </Text>
                 </TouchableOpacity>
+
+                {error && (
+                    <Text style={styles.errorText}>
+                        {error}
+                    </Text>
+                )}
+
+                <TouchableOpacity onPress={() => navigation.navigate("register")}>
+                    <Text style={styles.signupText}>
+                        Don’t have an account?
+                        <Text style={styles.signupLink}> Sign Up</Text>
+                    </Text>
+                </TouchableOpacity>
+
+                <Text style={styles.or}>Or sign in with:</Text>
+
+                <View style={styles.socialRow}>
+                    <TouchableOpacity style={styles.socialButton}>
+                        <FontAwesome name="facebook" size={20} color="#3b5998" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.socialButton}>
+                        <FontAwesome name="google" size={20} color="#DB4437" />
+                    </TouchableOpacity>
+                </View>
             </View>
-
-            <TouchableOpacity style={styles.plainButton} onPress={handleLogin}>
-                <Text style={styles.buttonText}>
-                    {loading ? 'Signing in...' : 'SIGN IN'}
-                </Text>
-            </TouchableOpacity>
-
-            {error && (
-                <Text style={styles.errorText}>
-                    {error}
-                </Text>
-            )}
-
-            <TouchableOpacity onPress={() => navigation.navigate("register")}>
-                <Text style={styles.signupText}>
-                    Don’t have an account?
-                    <Text style={styles.signupLink}> Sign Up</Text>
-                </Text>
-            </TouchableOpacity>
-
-            <Text style={styles.or}>Or sign in with:</Text>
-
-            <View style={styles.socialRow}>
-                <TouchableOpacity style={styles.socialButton}>
-                    <FontAwesome name="facebook" size={20} color="#3b5998" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.socialButton}>
-                    <FontAwesome name="google" size={20} color="#DB4437" />
-                </TouchableOpacity>
-            </View>
-        </View>
+       </ScrollView>
     );
 }
 
@@ -202,8 +205,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     logo: {
-        width: 300,
-        height: 300,
+        width: 250,
+        height: 250,
         resizeMode: 'contain',
         alignSelf: 'center',
         marginLeft: 5

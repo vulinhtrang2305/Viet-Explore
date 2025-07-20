@@ -33,7 +33,7 @@ const LocationScroll = (props: any) => {
             </View>
 
             <FlatList
-                data={spots.slice(0, 10)}
+                data={Array.isArray(spots) ? spots.slice(0, 10) : []}
                 keyExtractor={(item) => item.name}
                 horizontal
                 showsHorizontalScrollIndicator={false}

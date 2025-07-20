@@ -27,7 +27,7 @@ module.exports = {
                 spotId,
                 rating,
                 comment,
-                imageUrl: Array.isArray(imageUrl) ? imageUrl : [imageUrl] // fallback
+                imageUrl: imageUrl ? (Array.isArray(imageUrl) ? imageUrl : [imageUrl]) : []
             });
 
             const saved = await newReview.save();

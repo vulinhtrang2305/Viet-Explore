@@ -12,10 +12,11 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, logoutUser, updateUser } from '../../store/slices/userSlice';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileDetail() {
     const dispatch = useDispatch();
-    const navigation = useNavigation()
+    const navigation = useNavigation();
     const { userInfo, loading, error, message } = useSelector((state: any) => state.users);
 
     const [name, setName] = useState('');
@@ -24,7 +25,8 @@ export default function ProfileDetail() {
     const [address, setAddress] = useState('');
     const [dob, setDob] = useState('');
 
-    const formatDate = (date) => {
+    const formatDate = (date: string) => {
+        if (!date) return "";
         const d = new Date(date);
         const day = String(d.getDate()).padStart(2, "0");
         const month = String(d.getMonth() + 1).padStart(2, "0");
@@ -33,21 +35,28 @@ export default function ProfileDetail() {
     };
 
     useEffect(() => {
-        if (!userInfo) {
-            const token = localStorage.getItem("token"); 
-            if (!token) {
-                navigation.replace("login"); 
-                return;
+        const checkAndLoad = async () => {
+            if (!userInfo) {
+                try {
+                    const token = await AsyncStorage.getItem("token");
+                    if (!token) {
+                        navigation.replace("login");
+                        return;
+                    }
+                    dispatch(getProfile());
+                } catch (err) {
+                    ToastAndroid.show("Lỗi khi kiểm tra token", ToastAndroid.SHORT);
+                }
+            } else {
+                setName(userInfo?.username || '');
+                setEmail(userInfo?.email || '');
+                setMobile(userInfo?.phone || '');
+                setAddress(userInfo?.address || '');
+                setDob(userInfo?.dob || '');
             }
+        };
 
-            dispatch(getProfile());
-        } else {
-            setName(userInfo?.username || '');
-            setEmail(userInfo?.email || '');
-            setMobile(userInfo?.phone || '');
-            setAddress(userInfo?.address || '');
-            setDob(userInfo?.dob || '');
-        }
+        checkAndLoad();
     }, [userInfo]);
 
     const handleUpdate = async () => {
@@ -61,28 +70,22 @@ export default function ProfileDetail() {
             email,
             phone: mobile,
             address: address,
-            dob: dob
+            dob: dob,
         };
 
         try {
             await dispatch(updateUser(updatedData)).unwrap();
-            navigation.goBack("UserTab");
             ToastAndroid.show("Cập nhật thành công", ToastAndroid.SHORT);
+            navigation.goBack(); // Không cần truyền tên tab
         } catch (err) {
             ToastAndroid.show(`Lỗi: ${err}`, ToastAndroid.LONG);
         }
     };
 
-
-
     const handleLogout = async () => {
         try {
             await dispatch(logoutUser()).unwrap();
-
-            localStorage.removeItem("token");
-
-            // Nếu dùng AsyncStorage (native)
-            // await AsyncStorage.removeItem("token");
+            await AsyncStorage.removeItem("token");
 
             ToastAndroid.show("Đăng xuất thành công", ToastAndroid.SHORT);
             navigation.reset({
@@ -112,7 +115,7 @@ export default function ProfileDetail() {
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Email-id"
+                    placeholder="Email"
                     value={email}
                     onChangeText={setEmail}
                     keyboardType="email-address"
@@ -122,7 +125,6 @@ export default function ProfileDetail() {
                     placeholder="Date of birth"
                     value={formatDate(dob)}
                     onChangeText={setDob}
-                // keyboardType=""
                 />
                 <TextInput
                     style={styles.input}
@@ -141,12 +143,12 @@ export default function ProfileDetail() {
 
             <TouchableOpacity style={styles.updateButton} onPress={handleUpdate}>
                 <Text style={styles.updateText}>
-                    {loading ? 'Đang cập nhật...' : 'Update'}
+                    {loading ? 'Đang cập nhật...' : 'Cập nhật'}
                 </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-                <Text style={styles.logoutText}>Logout</Text>
+                <Text style={styles.logoutText}>Đăng xuất</Text>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -161,7 +163,6 @@ const styles = StyleSheet.create({
     avatarContainer: {
         alignItems: 'center',
         marginVertical: 20,
-        position: 'relative',
     },
     avatar: {
         width: 100,

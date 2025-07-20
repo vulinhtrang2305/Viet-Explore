@@ -4,6 +4,8 @@ import HeaderC from './HeaderC';
 import BannerC from './BannerC';
 import LocationScroll from './LoactionScroll';
 import SuggestC from '../SuggestLocation/SuggestC';
+import NearbyLocationC from './NearbyLocationC';
+import MyLocationMap from './MyLocation';
 
 export default function MainHomeC() {
     return (
@@ -18,6 +20,8 @@ export default function MainHomeC() {
                 />
                 <LocationScroll />
                 <SuggestC />
+                <NearbyLocationC/>
+                <MyLocationMap/>
             </View>
         </ScrollView>
     );
