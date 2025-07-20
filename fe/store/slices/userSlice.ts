@@ -80,20 +80,29 @@ export const getProfile = createAsyncThunk(
 // Cập nhật thông tin user
 export const updateUser = createAsyncThunk(
   "users/updateUser",
-  async (updatedData, { rejectWithValue }) => {
+  async ({ id, updatedData }, { rejectWithValue }) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const response = await axios.put(`${API_URL}/profile`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      // Truyền userId vào URL để cập nhật
+      const response = await axios.put(
+        `${API_URL}/update/${id}`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       return response.data.user;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
+
+
 
 // Đăng xuất
 export const logoutUser = createAsyncThunk(
@@ -168,7 +177,6 @@ const usersSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Login
       // Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;

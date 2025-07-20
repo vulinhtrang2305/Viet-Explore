@@ -3,7 +3,6 @@ import {
     View,
     Text,
     StyleSheet,
-    ScrollView,
     Image,
     FlatList,
     Dimensions,
@@ -51,8 +50,6 @@ export default function SpotDetailScreen() {
     }, [dispatch, userId]);
 
     const selectedSpot = spots.find((s) => s._id === spotId);
-    // const isFavourite = userFavourite?.spotId?.includes(selectedSpot?._id);
-
 
     const isFavourite =
         userFavourite &&
@@ -99,75 +96,79 @@ export default function SpotDetailScreen() {
             });
         }
     };
-    
 
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.titleRow}>
-                <Text style={styles.title}>{selectedSpot.name}</Text>
+        <FlatList
+            data={[selectedSpot]} // wrap single spot data
+            keyExtractor={(item) => item._id.toString()}
+            renderItem={({ item }) => (
+                <View style={styles.container}>
+                    <View style={styles.titleRow}>
+                        <Text style={styles.title}>{item.name}</Text>
 
-                {typeof isFavourite !== 'undefined' && (
-                    <TouchableOpacity onPress={handleToggleFavourite}>
-                        <Ionicons
-                            name="bookmark"
-                            size={28}
-                            color={isFavourite ? '#FFD700' : '#999'}
-                            style={{ marginLeft: 12 }}
-                        />
-                    </TouchableOpacity>
-                )}
+                        {typeof isFavourite !== 'undefined' && (
+                            <TouchableOpacity onPress={handleToggleFavourite}>
+                                <Ionicons
+                                    name="bookmark"
+                                    size={28}
+                                    color={isFavourite ? '#FFD700' : '#999'}
+                                    style={{ marginLeft: 12 }}
+                                />
+                            </TouchableOpacity>
+                        )}
+                    </View>
 
-            </View>
+                    <Image
+                        source={{ uri: item.imageUrl[selectedIndex] }}
+                        style={styles.mainImage}
+                        resizeMode="cover"
+                    />
 
-            <Image
-                source={{ uri: selectedSpot.imageUrl[selectedIndex] }}
-                style={styles.mainImage}
-                resizeMode="cover"
-            />
+                    <FlatList
+                        data={item.imageUrl}
+                        horizontal
+                        keyExtractor={(_, index) => index.toString()}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.thumbnailContainer}
+                        renderItem={({ item, index }) => (
+                            <TouchableOpacity onPress={() => setSelectedIndex(index)}>
+                                <Image
+                                    source={{ uri: item }}
+                                    style={[
+                                        styles.thumbnail,
+                                        selectedIndex === index && styles.selectedThumbnail,
+                                    ]}
+                                />
+                            </TouchableOpacity>
+                        )}
+                    />
 
-            <FlatList
-                data={selectedSpot.imageUrl}
-                horizontal
-                keyExtractor={(_, index) => index.toString()}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.thumbnailContainer}
-                renderItem={({ item, index }) => (
-                    <TouchableOpacity onPress={() => setSelectedIndex(index)}>
-                        <Image
-                            source={{ uri: item }}
-                            style={[
-                                styles.thumbnail,
-                                selectedIndex === index && styles.selectedThumbnail,
-                            ]}
-                        />
-                    </TouchableOpacity>
-                )}
-            />
+                    <LocationScreenButton
+                        lat={item.location.lat}
+                        lng={item.location.lng}
+                        name={item.name}
+                    />
 
-            <LocationScreenButton
-                lat={selectedSpot.location.lat}
-                lng={selectedSpot.location.lng}
-                name={selectedSpot.name}
-            />
+                    <View style={styles.infoRow}>
+                        <Ionicons name="location-outline" size={18} color="#777" />
+                        <Text style={styles.infoText}>Khu vực: Miền {item.region}</Text>
+                    </View>
 
-            <View style={styles.infoRow}>
-                <Ionicons name="location-outline" size={18} color="#777" />
-                <Text style={styles.infoText}>Khu vực: Miền {selectedSpot.region}</Text>
-            </View>
+                    <View style={styles.infoRow}>
+                        <Ionicons name="pricetag-outline" size={18} color="#777" />
+                        <Text style={styles.infoText}>Loại hình: {item.type}</Text>
+                    </View>
 
-            <View style={styles.infoRow}>
-                <Ionicons name="pricetag-outline" size={18} color="#777" />
-                <Text style={styles.infoText}>Loại hình: {selectedSpot.type}</Text>
-            </View>
+                    <Text style={styles.sectionTitle}>Giới thiệu</Text>
+                    <Text style={styles.description}>{item.description}</Text>
 
-            <Text style={styles.sectionTitle}>Giới thiệu</Text>
-            <Text style={styles.description}>{selectedSpot.description}</Text>
-
-            <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Đánh giá từ người dùng</Text>
-                <ReviewDetailScreen spotId={spotId} />
-            </View>
-        </ScrollView>
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>Đánh giá từ người dùng</Text>
+                        <ReviewDetailScreen spotId={spotId} />
+                    </View>
+                </View>
+            )}
+        />
     );
 }
 
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     mainImage: {
-        width: screenWidth ,
+        width: screenWidth,
         height: screenWidth * 0.52,
         borderRadius: 16,
         marginTop: 14,

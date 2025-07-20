@@ -48,7 +48,6 @@ export default function SignInScreen() {
     return (
        <ScrollView>
             <View style={styles.container}>
-                {/* <Text style={styles.title}>Sign In</Text> */}
 
                 <Image
                     source={{ uri: "https://res.cloudinary.com/dd4qz2k1g/image/upload/v1752963063/Green_Minimal_Travel_Business_Logo_nnjajm.png" }}

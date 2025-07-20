@@ -7,17 +7,17 @@ import {
     ScrollView,
     TouchableOpacity,
     TextInput,
-    ToastAndroid,
+    Alert,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile, logoutUser, updateUser } from '../../store/slices/userSlice';
+import { getProfile, updateUser, logoutUser } from '../../store/slices/userSlice';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileDetail() {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const { userInfo, loading, error, message } = useSelector((state: any) => state.users);
+    const { userInfo, loading, error, message } = useSelector((state) => state.users);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -25,7 +25,7 @@ export default function ProfileDetail() {
     const [address, setAddress] = useState('');
     const [dob, setDob] = useState('');
 
-    const formatDate = (date: string) => {
+    const formatDate = (date) => {
         if (!date) return "";
         const d = new Date(date);
         const day = String(d.getDate()).padStart(2, "0");
@@ -45,12 +45,12 @@ export default function ProfileDetail() {
                     }
                     dispatch(getProfile());
                 } catch (err) {
-                    ToastAndroid.show("Lỗi khi kiểm tra token", ToastAndroid.SHORT);
+                    Alert.alert("Lỗi khi kiểm tra token");
                 }
             } else {
                 setName(userInfo?.username || '');
                 setEmail(userInfo?.email || '');
-                setMobile(userInfo?.phone || '');
+                setMobile(userInfo?.phone ? String(userInfo.phone) : '');
                 setAddress(userInfo?.address || '');
                 setDob(userInfo?.dob || '');
             }
@@ -60,11 +60,6 @@ export default function ProfileDetail() {
     }, [userInfo]);
 
     const handleUpdate = async () => {
-        if (!name || !email || !mobile || !address || !dob) {
-            ToastAndroid.show("Vui lòng điền đầy đủ thông tin", ToastAndroid.SHORT);
-            return;
-        }
-
         const updatedData = {
             username: name,
             email,
@@ -73,27 +68,38 @@ export default function ProfileDetail() {
             dob: dob,
         };
 
+        const userId = userInfo?._id;
+        console.log(userInfo);
+        
+        if (!userId) {
+            Alert.alert("Không tìm thấy ID người dùng");
+            return;
+        }
+
+        console.log("ID người dùng:", userId);
+
         try {
-            await dispatch(updateUser(updatedData)).unwrap();
-            ToastAndroid.show("Cập nhật thành công", ToastAndroid.SHORT);
-            navigation.goBack(); // Không cần truyền tên tab
+            await dispatch(updateUser({ id: userId, updatedData })).unwrap();
+            Alert.alert("Cập nhật thành công");
+            navigation.goBack();
         } catch (err) {
-            ToastAndroid.show(`Lỗi: ${err}`, ToastAndroid.LONG);
+            Alert.alert(`Lỗi: ${err}`);
         }
     };
+    
 
     const handleLogout = async () => {
         try {
             await dispatch(logoutUser()).unwrap();
             await AsyncStorage.removeItem("token");
 
-            ToastAndroid.show("Đăng xuất thành công", ToastAndroid.SHORT);
+            Alert.alert("Đăng xuất thành công");
             navigation.reset({
                 index: 0,
-                routes: [{ name: "login" }],
+                routes: [{ name: "HomeScreen" }],
             });
         } catch (err) {
-            ToastAndroid.show("Lỗi khi đăng xuất", ToastAndroid.LONG);
+            Alert.alert("Lỗi khi đăng xuất");
         }
     };
 
