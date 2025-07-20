@@ -1,6 +1,14 @@
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { fetchCategories } from '../../../store/slices/categorySlice';
@@ -9,28 +17,46 @@ import { fetchSpots } from '../../../store/slices/spotSlice';
 export default function DetailsLocation() {
   const route = useRoute();
   const { categoryId } = route.params;
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const { spots } = useAppSelector((state) => state.spots);
   const { categories } = useAppSelector((state) => state.categories);
+
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     dispatch(fetchSpots());
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  const filteredSpots = spots?.filter((item) => item.categoryId === categoryId);
-  const categoryName = categories?.find((cat) => cat._id === categoryId)?.name || 'Danh mục';
+  const categoryName =
+    categories?.find((cat) => cat._id === categoryId)?.name || 'Danh mục';
+
+  const filteredSpots = spots?.filter(
+    (item) =>
+      item.categoryId === categoryId &&
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <Text style={styles.title}>Danh mục: {categoryName}</Text>
 
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Tìm theo tên địa điểm..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+
       <FlatList
         data={filteredSpots}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate("description", { spotId: item._id })}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('description', { spotId: item._id })}
+          >
             <View style={styles.item}>
               <Image source={{ uri: item.imageUrl[0] }} style={styles.image} />
               <Text style={styles.name}>{item.name}</Text>
@@ -39,7 +65,7 @@ export default function DetailsLocation() {
         )}
         ListEmptyComponent={
           <Text style={{ marginTop: 20, textAlign: 'center' }}>
-            Không có điểm đến nào thuộc danh mục này.
+            Không có điểm đến phù hợp.
           </Text>
         }
       />
@@ -51,6 +77,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  searchInput: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    paddingHorizontal: 12,
     marginBottom: 16,
   },
   item: {
