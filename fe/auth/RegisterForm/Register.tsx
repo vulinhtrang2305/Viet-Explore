@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     StyleSheet,
     Image,
-    ToastAndroid
+    ToastAndroid,
+    ScrollView
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -45,56 +46,56 @@ export default function RegisterScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            {/* <Text style={styles.title}>Sign In</Text> */}
-
-            <Image
-                source={require('../../assets/logo.svg')}
-                style={styles.logo}
-            />
-
-            <TextInput
-                style={styles.input}
-                placeholder="Username"
-                placeholderTextColor="#aaa"
-                value={username}
-                onChangeText={setUsername}
-                autoCapitalize="none"
-            />
-
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="#aaa"
-                keyboardType="email-address"
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-            />
-
-            <View style={styles.passwordRow}>
-                <TextInput
-                    style={styles.passwordInput}
-                    placeholder="Password"
-                    placeholderTextColor="#aaa"
-                    secureTextEntry
-                    value={password}
-                    onChangeText={setPassword}
+      <ScrollView>
+            <View style={styles.container}>
+                <Image
+                    source={{ uri: "https://res.cloudinary.com/dd4qz2k1g/image/upload/v1752963063/Green_Minimal_Travel_Business_Logo_nnjajm.png" }}
+                    style={styles.logo}
                 />
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Username"
+                    placeholderTextColor="#aaa"
+                    value={username}
+                    onChangeText={setUsername}
+                    autoCapitalize="none"
+                />
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    placeholderTextColor="#aaa"
+                    keyboardType="email-address"
+                    value={email}
+                    onChangeText={setEmail}
+                    autoCapitalize="none"
+                />
+
+                <View style={styles.passwordRow}>
+                    <TextInput
+                        style={styles.passwordInput}
+                        placeholder="Password"
+                        placeholderTextColor="#aaa"
+                        secureTextEntry
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+                </View>
+
+                <TouchableOpacity style={styles.plainButton} onPress={handleRegister}>
+                    <Text style={styles.buttonText}>
+                        {loading ? 'Signing in...' : 'Đăng Ký'}
+                    </Text>
+                </TouchableOpacity>
+
+                {error && (
+                    <Text style={styles.errorText}>
+                        {error}
+                    </Text>
+                )}
             </View>
-
-            <TouchableOpacity style={styles.plainButton} onPress={handleRegister}>
-                <Text style={styles.buttonText}>
-                    {loading ? 'Signing in...' : 'Đăng Ký'}
-                </Text>
-            </TouchableOpacity>
-
-            {error && (
-                <Text style={styles.errorText}>
-                    {error}
-                </Text>
-            )}
-        </View>
+      </ScrollView>
     );
 }
 
