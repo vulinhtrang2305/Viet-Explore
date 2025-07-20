@@ -63,10 +63,11 @@ const styles = StyleSheet.create({
         paddingTop: 40,
     },
     header: {
-        fontSize: 18,
+        marginTop: 30,
+        fontSize: 20,
         fontWeight: '600',
         textAlign: 'center',
-        marginBottom: 10,
+        marginBottom: 25,
     },
     loginRow: {
         flexDirection: 'row',
