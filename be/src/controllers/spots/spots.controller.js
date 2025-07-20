@@ -18,6 +18,7 @@ module.exports = {
     createSpot: async (req, res) => {
         try {
             const { name, provinceId, region, type, imageUrl, description, location, isFavorite, regionGroup, regionCode, categoryId } = req.body;
+            console.log("🟡 Incoming Spot payload:", req.body);
 
             if (
                 !name ||
@@ -46,16 +47,31 @@ module.exports = {
         }
     },
 
+    
     updateSpot: async (req, res) => {
         try {
             const { id } = req.params;
             const { name, provinceId, region, type, imageUrl, description, location, isFavorite, regionGroup, regionCode, categoryId } = req.body;
 
             // Kiểm tra đầu vào
-            if (!name || !provinceId || !region || !type || !imageUrl || !description || !location || !isFavorite || !regionGroup || !regionCode || !categoryId) {
-                return res.status(400).json({ message: "Missing required fields: name, region, regionCode." });
+            if (
+                !name ||
+                !provinceId ||
+                !region ||
+                !type ||
+                !Array.isArray(imageUrl) ||
+                typeof description !== 'string' ||
+                typeof location !== 'object' ||
+                typeof location.lat !== 'number' ||
+                typeof location.lng !== 'number' ||
+                typeof isFavorite !== "boolean" ||
+                !regionGroup ||
+                !regionCode ||
+                !categoryId
+            ) {
+                return res.status(400).json({ message: "Missing or invalid required fields." });
             }
-
+                
             // Tìm và cập nhật review
             const updated = await Spot.findByIdAndUpdate(
                 id,
