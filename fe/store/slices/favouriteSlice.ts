@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// const BASE_URL = "http://localhost:9999/favourites";
 const API_URL = "http://192.168.1.7:9999/favourites";
 
 // Lấy danh sách yêu thích của user
